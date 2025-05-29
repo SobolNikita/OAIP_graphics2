@@ -6,10 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ExtDlgs,
-  Vcl.MPlayer, system.types, Person, film;
+  Vcl.MPlayer;
 
 type
-  TmainForm = class(TForm)
+  TForm1 = class(TForm)
     Button1: TButton;
     Timer1: TTimer;
     Timer2: TTimer;
@@ -20,10 +20,10 @@ type
     procedure Timer2Timer(Sender: TObject);
   private
     { Private declarations }
-    FrameIndex: integer; // РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ РєР°РґСЂР°
-    XImage, YImage: Integer; // РџРѕР·РёС†РёСЏ С„РѕРЅР°
-    procedure DrawBackground; // РџСЂРѕС†РµРґСѓСЂР° РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ С„РѕРЅР°
-    procedure DrawCharacter; // РџСЂРѕС†РµРґСѓСЂР° РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ РїРµСЂСЃРѕРЅР°Р¶Р°
+    FrameIndex: integer; // Индекс текущего кадра
+    XImage, YImage: Integer; // Позиция фона
+    procedure DrawBackground; // Процедура для рисования фона
+    procedure DrawCharacter; // Процедура для рисования персонажа
   public
     { Public declarations }
     procedure DrawFrame;
@@ -42,7 +42,7 @@ const CNT_RUN_FRAMES = 11;
       CNT_WIN_FRAMES = 4;
 
 var
-  mainForm: TmainForm;
+  Form1: TForm1;
   X, Y: integer;
   MC: TMyCanvas;
   bgScales: array[1..CNT_JUMP_FRAMES] of real = (
@@ -55,8 +55,6 @@ var
 implementation
 
 {$R *.dfm}
-
-uses Unit123;
 
 
 function toRad(const val: integer): real;
@@ -82,63 +80,63 @@ begin
 
 
 
-  // С‚СѓР»РѕРІРёС‰Рµ
-  mainForm.Canvas.MoveTo(X, Y);
+  // туловище
+  Form1.Canvas.MoveTo(X, Y);
   downBodyX := X + round(scale * 4 * sin(toRad(RBody)));
   downBodyY := Y + round(scale * 4 * cos(toRad(RBody)));
-  mainForm.Canvas.LineTo(downBodyX, downBodyY); // РєРѕРЅРµС† С‚СѓР»РѕРІР°
+  Form1.Canvas.LineTo(downBodyX, downBodyY); // конец тулова
 
-  // РіРѕР»РѕРІР°
-  mainForm.Canvas.Ellipse(X - round(scale * sin(toRad(RBody))) - scale,
+  // голова
+  Form1.Canvas.Ellipse(X - round(scale * sin(toRad(RBody))) - scale,
                        Y - round(scale * cos(toRad(RBody))) - scale,
                        X - round(scale * sin(toRad(RBody))) + scale,
                        Y - round(scale * cos(toRad(RBody))) + scale);
 
 
-// Р»РµРІР°СЏ СЂСѓРєР°
+// левая рука
   X2 := X + round(scale * 3 * sin(toRad(RLeftH)));
   Y2 := Y + round(scale * 3 * cos(toRad(RLeftH)));
   LeftArmX := X2 + round(scale * 2 * sin(toRad(RLeftH2)));
  LeftArmY := Y2 + round(scale * 2 * cos(toRad(RLeftH2)));
-  mainForm.Canvas.Polyline([
+  Form1.Canvas.Polyline([
     Point(X, Y),
     Point(X2, Y2),
     Point(LeftArmX, LeftArmY)]);
 
 
-    // РїР°Р»РєР°
-    mainForm.Canvas.MoveTo(LeftArmX, LeftArmY);
-  mainForm.Canvas.LineTo(LeftArmX - round(scaleStick * scale * 8 * sin(toRad(RStick))),
+    // палка
+    Form1.Canvas.MoveTo(LeftArmX, LeftArmY);
+  Form1.Canvas.LineTo(LeftArmX - round(scaleStick * scale * 8 * sin(toRad(RStick))),
                       LeftArmY - round(scaleStick * scale * 8 * cos(toRad(RStick))));
-  mainForm.Canvas.MoveTo(LeftArmX, LeftArmY);
-  mainForm.Canvas.LineTo(LeftArmX + round(scaleStick * scale * 4 * sin(toRad(RStick))),
+  Form1.Canvas.MoveTo(LeftArmX, LeftArmY);
+  Form1.Canvas.LineTo(LeftArmX + round(scaleStick * scale * 4 * sin(toRad(RStick))),
                       LeftArmY + round(scaleStick * scale * 4 * cos(toRad(RStick))));
 
-// РїСЂР°РІР°СЏ СЂСѓРєР°
+// правая рука
 
   X2 := X + round(scale * 3 * sin(toRad(RRIghtH)));
   Y2 := Y + round(scale * 3 * cos(toRad(RRIghtH)));
-  mainForm.Canvas.Polyline([
+  Form1.Canvas.Polyline([
     Point(X, Y),
     Point(X2, Y2),
     Point(X2 + round(scale * 2 * sin(toRad(RRIghtH2))),
           Y2 + round(scale * 2 * cos(toRad(RRIghtH2))))
     ]);
 
-// Р»РµРІР°СЏ РЅРѕРіР°
+// левая нога
   X2 := downBodyX + round(scale * 3 * sin(toRad(RLeftLeg)));
   Y2 := downBodyY + round(scale * 3 * cos(toRad(RLeftLeg)));
-  mainForm.Canvas.Polyline([
+  Form1.Canvas.Polyline([
     Point(downBodyX, downBodyY),
     Point(X2, Y2),
     Point(X2 + round(scale * 2 * sin(toRad(RLeftLeg2))),
           Y2 + round(scale * 2 * cos(toRad(RLeftLeg2))))
   ]);
 
-// РїСЂР°РІР°СЏ РЅРѕРіР°
+// правая нога
   X2 := downBodyX + round(scale * 3 * sin(toRad(RRightLeg)));
   Y2 := downBodyY + round(scale * 3 * cos(toRad(RRightLeg)));
-  mainForm.Canvas.Polyline([
+  Form1.Canvas.Polyline([
     Point(downBodyX, downBodyY),
     Point(X2, Y2),
     Point(X2 + round(scale * 2 * sin(toRad(RRightLeg2))),
@@ -146,7 +144,7 @@ begin
   ]);
 end;
 
-procedure TmainForm.DrawBackground;
+procedure TForm1.DrawBackground;
 var
   BitMap: TBitmap;
   DestRect: TRect;
@@ -335,7 +333,7 @@ var frames: array[1..CNT_RUN_FRAMES + CNT_JUMP_FRAMES + CNT_HIT_FRAMES + CNT_JUM
 );
 
 
-procedure TmainForm.DrawCharacter;
+procedure TForm1.DrawCharacter;
 begin
   if (curaddY < 0) and (YImage > -1200) then
   begin
@@ -354,14 +352,14 @@ begin
   end
   else if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 41 then
 begin
-  //РїСЂС‹Р¶РѕРє РІС‚РѕСЂРѕР№
+  //прыжок второй
     drawPerson(frames[CNT_RUN_FRAMES + CNT_JUMP_FRAMES + CNT_HIT_FRAMES + ((FrameIndex - (CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 41)) mod CNT_JUMP2_FRAMES) + 1]);
     XImage := XImage - 70;
     YImage := YImage - curaddY;
   end
 else if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 13 then
       begin
-  //Р±РµРі РІС‚РѕСЂРѕР№
+  //бег второй
     frames[FrameIndex mod CNT_RUN_FRAMES + 1, 14] := 2;
     drawPerson(frames[FrameIndex mod CNT_RUN_FRAMES + 1]);
     XImage := XImage - 40;
@@ -369,75 +367,75 @@ else if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 13 then
   else
   if FrameIndex >= LAST_RUN_FRAME + 15 then
   begin
-  //РќР•Рў РЈР’Р•Р›РР§Р•РќРРЇ,  РќР•Р• + 1
+  //НЕТ УВЕЛИЧЕНИЯ,  НЕЕ + 1
    drawPerson(frames[CNT_RUN_FRAMES +CNT_JUMP_FRAMES+ ((FrameIndex-LAST_RUN_FRAME) mod CNT_HIT_FRAMES  )]);
   //  drawPerson(frames[CNT_RUN_FRAMES + CNT_JUMP_FRAMES]);
     XImage := XImage + 8;
   end
   else if FrameIndex >= LAST_RUN_FRAME then
   begin
-  //РїСЂС‹Р¶РѕРє
+  //прыжок
     drawPerson(frames[CNT_RUN_FRAMES + ((FrameIndex-LAST_RUN_FRAME) mod CNT_JUMP_FRAMES + 1)]);
     XImage := XImage - 15;
   end
   else
   begin
-  //Р±РµРі РїРµСЂРІС‹Р№
+  //бег первый
     drawPerson(frames[FrameIndex mod CNT_RUN_FRAMES + 1]);
   end;
 end;
 
 
-procedure TmainForm.DrawFrame;
+procedure TForm1.DrawFrame;
 begin
-  MC := TMyCanvas.Create; // РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РєР»Р°СЃСЃР°
-  MC.Handle := Canvas.Handle; // РЅР°Р·РЅР°С‡Р°РµРј С…РѕР»СЃС‚ РѕРєРЅР° РѕР±Р»Р°СЃС‚СЊСЋ РІС‹РІРѕРґР°
-  DrawBackground; // Р РёСЃСѓРµРј С„РѕРЅ
- DrawCharacter; // Р РёСЃСѓРµРј РїРµСЂСЃРѕРЅР°Р¶Р°
+  MC := TMyCanvas.Create; // используем конструктор родительского класса
+  MC.Handle := Canvas.Handle; // назначаем холст окна областью вывода
+  DrawBackground; // Рисуем фон
+ DrawCharacter; // Рисуем персонажа
 end;
 
 
-procedure TmainForm.Button1Click(Sender: TObject);
+procedure TForm1.Button1Click(Sender: TObject);
 begin
-mainForm.Button1.Visible := false;
-  //РњСѓР·С‹РєР°
+Form1.Button1.Visible := false;
+  //Музыка
   curaddY := -40;
   MediaPlayer1.FileName := 'music/fon_music.mp3';
   MediaPlayer1.Open;
   MediaPlayer1.Play;
-  //РњСѓР·С‹РєР°
+  //Музыка
   Canvas.Pen.Width := 4;
-  XImage := 0; // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕР·РёС†РёРё С„РѕРЅР°
-  YImage := -3000; // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕР·РёС†РёРё С„РѕРЅР°
+  XImage := 0; // Инициализация позиции фона
+  YImage := -3000; // Инициализация позиции фона
   Timer2.Enabled := True;
 
   X := 100;
   Y := 100;
-  FrameIndex := 1; // РќР°С‡РёРЅР°РµРј СЃ РїРµСЂРІРѕРіРѕ РєР°РґСЂР°
-  Timer1.Enabled := True; // Р—Р°РїСѓСЃРєР°РµРј С‚Р°Р№РјРµСЂ
+  FrameIndex := 1; // Начинаем с первого кадра
+  Timer1.Enabled := True; // Запускаем таймер
 end;
 
-procedure TmainForm.FormPaint(Sender: TObject);
+procedure TForm1.FormPaint(Sender: TObject);
 begin
   Canvas.Brush.Color := clWhite;
   Color := clWhite;
   Canvas.Pen.Mode := pmNotXor;
 end;
 
-procedure TmainForm.Timer1Timer(Sender: TObject);
+procedure TForm1.Timer1Timer(Sender: TObject);
 begin
-  FrameIndex := FrameIndex + 1; // РџРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ РєР°РґСЂСѓ
+  FrameIndex := FrameIndex + 1; // Переход к следующему кадру
   X := X + 1;
   if (X >= ClientWidth - 20) then
     Timer1.Enabled := false;
 end;
 
-procedure TmainForm.Timer2Timer(Sender: TObject);
+procedure TForm1.Timer2Timer(Sender: TObject);
 begin
-  DrawFrame; // Р РёСЃСѓРµРј С‚РµРєСѓС‰РёР№ РєР°РґСЂ
+  DrawFrame; // Рисуем текущий кадр
    XImage := XImage - 12;
 end;
 
 end.
 
-// РћРЎРќРћР’Рђ
+// ОСНОВА

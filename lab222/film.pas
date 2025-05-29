@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, MMSystem, Vcl.MPlayer;
 const n = 23;
 type
-  TmainForm = class(TForm)
+  Tform222 = class(TForm)
     Timer1: TTimer;
     MediaPlayer1: TMediaPlayer;
     procedure FormPaint(Sender: TObject);
@@ -47,7 +47,7 @@ type
   tmas = array[1..n] of TSP;
 
 var
-  mainForm: TmainForm;
+  form222: Tform222;
   tr, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6, x7, y7, x8, y8, x9, y9, x10, y10, x11, y11, x12, y12, x13, y13, tx1, ty1, tx2, ty2, tx3, ty3, tx4, ty4, shtx, shty, tempx1, tempx2, lfeet, rfeet, lfeet2, rfeet2, kadr, kadr2, xHouses: integer;
   k, body, lhand0, lhand1, rhand0, rhand1, lleg0, lleg1, rleg0, rleg1: real;
   person: array [1..2] of integer;
@@ -58,7 +58,7 @@ implementation
 {$R *.dfm}
 
 
-procedure TmainForm.FormPaint(Sender: TObject);
+procedure Tform222.FormPaint(Sender: TObject);
 begin
   // Основная функция: начальные значения и функции
   DrawMan;
@@ -100,7 +100,7 @@ begin
   //DoubleBuffered := True;
 end;
 
-procedure TmainForm.Timer1Timer(Sender: TObject);
+procedure Tform222.Timer1Timer(Sender: TObject);
 begin
   // Таймер - запускает отрисовки. Готовая функция.
   Canvas.FillRect(ClientRect);
@@ -108,7 +108,7 @@ begin
   DrawCartoon;
 end;
 
-procedure TmainForm.DrawHouse1;
+procedure Tform222.DrawHouse1;
 begin
   Canvas.PolyLine([Point(xHouses, 400), Point(xHouses, 50), Point(xHouses + 200, 50), Point(xHouses + 200, 400), Point(xHouses, 400)]);
   Canvas.PolyLine([Point(xHouses + 20, 350), Point(xHouses + 70, 350), Point(xHouses + 70, 280), Point(xHouses + 20, 280), Point(xHouses + 20, 350)]);
@@ -119,14 +119,14 @@ begin
   Canvas.PolyLine([Point(xHouses + 180, 150), Point(xHouses + 130, 150), Point(xHouses + 130, 80), Point(xHouses + 180, 80), Point(xHouses + 180, 150)]);
 end;
 
-procedure TmainForm.DrawHouse2;
+procedure Tform222.DrawHouse2;
 begin
   Canvas.Polyline([Point(xHouses, 400), Point(xHouses, 100), Point(xHouses + 100, 100), Point(xHouses + 100, 400), Point(xHouses, 400)]);
   Canvas.Polyline([Point(xHouses + 25, 350), Point(xHouses + 25, 280),  Point(xHouses + 75, 280),  Point(xHouses + 75, 350), Point(xHouses + 25, 350)]);
   Canvas.Polyline([Point(xHouses + 25, 200), Point(xHouses + 25, 130),  Point(xHouses + 75, 130),  Point(xHouses + 75, 200), Point(xHouses + 25, 200)]);
 end;
 
-procedure TmainForm.DrawHouse3;
+procedure Tform222.DrawHouse3;
 begin
   Canvas.Polyline([Point(xHouses, 400), Point(xHouses, 70), Point(xHouses + 150, 70), Point(xHouses + 150, 400), Point(xHouses, 400)]);
   Canvas.PolyLine([Point(xHouses + 20, 350), Point(xHouses + 70, 350), Point(xHouses + 70, 280), Point(xHouses + 20, 280), Point(xHouses + 20, 350)]);
@@ -137,7 +137,7 @@ begin
   Canvas.PolyLine([Point(xHouses + 130, 150), Point(xHouses + 80, 150), Point(xHouses + 80, 80), Point(xHouses + 130, 80), Point(xHouses + 130, 150)]);
 end;
 
-procedure TmainForm.Background;
+procedure Tform222.Background;
 begin
   for var g := 1 to 23 do
   begin
@@ -151,7 +151,7 @@ begin
   end;
 end;
 
-procedure TmainForm.Coordinates;
+procedure Tform222.Coordinates;
 begin
   x1 := Round(person[1]-sin(body*pi/180)*25*k);
   y1 := Round(person[2]+cos(body*pi/180)*25*k);
@@ -181,7 +181,7 @@ begin
   y13 := y11 + Round(cos((rfeet2*(body-rleg1)-(90*rfeet))*pi/180)*15*k);
 end;
 
-procedure TmainForm.DrawPerson;
+procedure Tform222.DrawPerson;
 begin
   Canvas.Ellipse(Round(person[1]-25*k),Round(person[2]-25*k),Round(person[1]+25*k),Round(person[2]+25*k));
   Canvas.Polyline([Point(x1,y1), Point(x2,y2)]);
@@ -191,14 +191,14 @@ begin
   Canvas.Polyline([Point(x2,y2), Point(x10,y10), Point(x11,y11), Point(x13,y13)]);
 end;
 
-procedure TmainForm.DrawMan;
+procedure Tform222.DrawMan;
 begin
   // Функция отрисовки человека
   Coordinates;
   DrawPerson;
 end;
 
-procedure TmainForm.Shtanga;
+procedure Tform222.Shtanga;
 begin
   Canvas.Polyline([Point(shtx-125,shty), Point(shtx+125,shty)]);
   Canvas.Rectangle(shtx-175,shty-50,shtx-125,shty+50);
@@ -207,7 +207,7 @@ begin
   Canvas.Rectangle(shtx+200,shty-25,shtx+174,shty+25);
 end;
 
-procedure TmainForm.Turnik;
+procedure Tform222.Turnik;
 begin
   tx2 := tx1;
   ty2 := ty1 - 500;
@@ -218,7 +218,7 @@ begin
   Canvas.Polyline([Point(tx1, ty1), Point(tx2, ty2), Point(tx3, ty3), Point(tx4, ty4)]);
 end;
 
-procedure TmainForm.DrawCartoon;
+procedure Tform222.DrawCartoon;
 begin
   if (kadr >= 10) then
   Background;
@@ -427,7 +427,7 @@ begin
   kadr := kadr + 1;
 end;
 
-procedure TmainForm.Hello;
+procedure Tform222.Hello;
 begin
   if kadr2 < 30 then
   begin
@@ -447,7 +447,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.Relax;
+procedure Tform222.Relax;
 begin
   if (kadr2 < 30) then
   begin
@@ -509,7 +509,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.RStartGoing;
+procedure Tform222.RStartGoing;
 begin
   lfeet := -1;
   rfeet2 := 0;
@@ -537,7 +537,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.RStartRun;
+procedure Tform222.RStartRun;
 begin
   lfeet := -1;
   rfeet2 := 0;
@@ -568,7 +568,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.RRun;
+procedure Tform222.RRun;
 begin
   if kadr2 < 30 then
   begin
@@ -626,7 +626,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.REndRun;
+procedure Tform222.REndRun;
 begin
   if kadr2 < 30 then
   begin
@@ -674,7 +674,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.REndGoing;
+procedure Tform222.REndGoing;
 begin
   if kadr2 < 30 then
   begin
@@ -720,7 +720,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.FGoing;
+procedure Tform222.FGoing;
 begin
   if (kadr2 < 30) then
   begin
@@ -750,7 +750,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.RGoing;
+procedure Tform222.RGoing;
 begin
   if kadr2 < 30 then
   begin
@@ -808,7 +808,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.TJump;
+procedure Tform222.TJump;
 begin
   if (kadr2 < 30) then
   begin
@@ -849,7 +849,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.TFell;
+procedure Tform222.TFell;
 begin
   if (kadr2 < 30) then
   begin
@@ -879,7 +879,7 @@ begin
   DrawMan;
 end;
 
-procedure TmainForm.TPullUp;
+procedure Tform222.TPullUp;
 begin
   // Поднятие
   if (kadr2 >= 0) and (kadr2 < 30) then
@@ -935,7 +935,7 @@ begin
   kadr2 := kadr2 + 1;
 end;
 
-procedure TmainForm.ShtEx;
+procedure Tform222.ShtEx;
 begin
   if kadr2 < 30 then
   begin

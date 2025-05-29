@@ -1,7 +1,7 @@
-object mainForm: TmainForm
+object form222: Tform222
   Left = 0
   Top = 0
-  Caption = 'mainForm'
+  Caption = 'form222'
   ClientHeight = 561
   ClientWidth = 784
   Color = clBtnFace

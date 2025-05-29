@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.UItypes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
-  Person, Vcl.MPlayer;
+  Person, Vcl.MPlayer, system.types;
 
 type
   TForm1 = class(TForm)
@@ -425,13 +425,6 @@ begin
   end;
   Invalidate;
 end;
-
-
-
-
-
-
-
 
 
 
