@@ -7,6 +7,7 @@ uses
   System.UItypes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Person, system.types;
 
+  function Scale(c: integer; xy: integer): integer;
 type
   TForm1 = class(TForm)
     procedure FormCreate(Sender: TObject);

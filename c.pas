@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ExtDlgs,
-  Vcl.MPlayer, system.types, Unit123, film, system.math;
+  Vcl.MPlayer, system.types, Unit123, film, system.math, person;
 
 type
   TmainForm = class(TForm)
@@ -362,6 +362,10 @@ begin
 else if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 13 then
       begin
   //бег второй
+    Form1.Canvas.Handle:= Canvas.Handle;
+  Form1.PrintPerson(0.5, Scale(dJudge,0), Scale(-740,1));  // тот же порядок, что в unit123.FormPaint
+  Form1.PrintPerson(mRed, Scale(dRed,0), Scale(dRedY,1));
+  Form1.PrintPerson(0.8, Scale(dBlack,0), Scale(-320,1));
     frames[FrameIndex mod CNT_RUN_FRAMES + 1, 14] := 2;
     drawPerson(frames[FrameIndex mod CNT_RUN_FRAMES + 1]);
     XImage := XImage - 40;
@@ -383,6 +387,10 @@ else if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 13 then
   else
   begin
   //бег первый
+    Form1.Canvas.Handle:= Canvas.Handle;
+  Form1.PrintPerson(0.5, Scale(dJudge,0), Scale(-740,1));  // тот же порядок, что в unit123.FormPaint
+  Form1.PrintPerson(mRed, Scale(dRed,0), Scale(dRedY,1));
+  Form1.PrintPerson(0.8, Scale(dBlack,0), Scale(-320,1));
     drawPerson(frames[FrameIndex mod CNT_RUN_FRAMES + 1]);
   end;
 end;
@@ -394,7 +402,6 @@ begin
   MC.Handle := Canvas.Handle; // назначаем холст окна областью вывода
   DrawBackground; // Рисуем фон
   DrawCharacter; // Рисуем персонажа
-
   if ShowBothCartoons and Assigned(form222) then
     begin
       form222.Canvas.Handle := Canvas.Handle; // Перенаправляем вывод
@@ -412,7 +419,14 @@ begin
   form222 := Tform222.Create(nil);
   form222.OnCreate(nil); // Инициализируем анимацию
 
-  Form1.Parent := Self;             // родительская форма — mainForm
+  LoadFrames;
+  Form1:= Tform1.Create(nil);
+  Form1.Parent:= Self;
+  Form1.Align:= alClient;
+  Form1.BorderStyle:= bsNone;
+  Form1.Visible:= false;
+  Form1.PreparePerson;
+  (*Form1.Parent := Self;             // родительская форма — mainForm
   Form1.Align := alClient;          // заполнить всё окно
   Form1.BorderStyle := bsNone;
   Form1.Show;
@@ -421,7 +435,7 @@ begin
   Unit123.Timer2.Enabled := True;
   Unit123.TimerW.Enabled := True;
   Form1.FormClick(self);
-  Form1.OnClick := nil;
+  Form1.OnClick := nil;*)
 
   (*//
   form222.canvas.Handle := self.canvas.Handle;
@@ -449,7 +463,7 @@ begin
 
   X := 100;
   Y := 100;
-  FrameIndex := 70; // ОСТАВЛЯЕМ КАКОЕ-ТО ВРЕМЯ НА ПРЕДЫДУЩИЙ МУЛЬТИК
+  FrameIndex := 0; // ОСТАВЛЯЕМ КАКОЕ-ТО ВРЕМЯ НА ПРЕДЫДУЩИЙ МУЛЬТИК
   Timer1.Enabled := True; // Запускаем таймер
   ShowBothCartoons := False; // Показываем только основной мультик
 end;
@@ -467,6 +481,7 @@ begin
   X := X + 1;
   if (X >= ClientWidth - 20) then
     Timer1.Enabled := false;
+  Form1.Timer1Timer(nil);
 end;
 
 
@@ -475,11 +490,11 @@ procedure TmainForm.Timer2Timer(Sender: TObject);
 begin
   if FrameIndex > 0 then
   begin
-    if Assigned(Form1) then
+    (*if Assigned(Form1) then
     begin
       Form1.Free;
       Form1 := nil;
-    end;
+    end; *)
 
     // Включаем отрисовку обоих мультиков при победе
     if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 41 + CNT_JUMP2_FRAMES then
@@ -492,8 +507,8 @@ begin
       ShowBothCartoons := False;
        kadr := offset;
   kadr2 := 0;
-  person[1] := -100;
-  person[2] := 230;
+  film.person[1] := -100;
+  film.person[2] := 230;
   lhand0 := 45;
   lhand1 := 0;
   rhand0 := 45;
