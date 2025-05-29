@@ -42,6 +42,7 @@ const CNT_RUN_FRAMES = 11;
       CNT_JUMP2_FRAMES = 25;
       CNT_WIN_FRAMES = 4;
 
+
 var
   mainForm: TmainForm;
   form222: Tform222; // Ôîðìà ñ ìóëüòèêîì ñî øòàíãîé
@@ -448,7 +449,7 @@ begin
 
   X := 100;
   Y := 100;
-  FrameIndex := 0; // ÎÑÒÀÂËßÅÌ ÊÀÊÎÅ-ÒÎ ÂÐÅÌß ÍÀ ÏÐÅÄÛÄÓÙÈÉ ÌÓËÜÒÈÊ
+  FrameIndex := 70; // ÎÑÒÀÂËßÅÌ ÊÀÊÎÅ-ÒÎ ÂÐÅÌß ÍÀ ÏÐÅÄÛÄÓÙÈÉ ÌÓËÜÒÈÊ
   Timer1.Enabled := True; // Çàïóñêàåì òàéìåð
   ShowBothCartoons := False; // Ïîêàçûâàåì òîëüêî îñíîâíîé ìóëüòèê
 end;
@@ -484,9 +485,44 @@ begin
     if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 41 + CNT_JUMP2_FRAMES then
     begin
       ShowBothCartoons := True;
+
     end
     else
+    begin
       ShowBothCartoons := False;
+       kadr := offset;
+  kadr2 := 0;
+  person[1] := -100;
+  person[2] := 230;
+  lhand0 := 45;
+  lhand1 := 0;
+  rhand0 := 45;
+  rhand1 := 0;
+  lleg0 := 45;
+  lleg1 := 0;
+  rleg0 := 45;
+  rleg1 := 0;
+  lfeet := 1;
+  rfeet := 1;
+  lfeet2 := 1;
+  rfeet2 := 1;
+  body := 0;
+  tx1 := 1040;
+  ty1 := 590;
+  shtx := 1215;
+  shty := 416;
+  k := 1;
+  xHouses := 10;
+  Randomize;
+  arr[1].dist := 10;
+  arr[1].h := Random(3);
+  for var i := 2 to 23 do
+  begin
+    arr[i].h := Random(3);
+    arr[i].dist := Random(3)*25 + 200 + arr[i-1].dist;
+  end;
+  tr := 0;
+    end;
 
     DrawFrame; // Ðèñóåì òåêóùèé êàäð
     XImage := XImage - 12;

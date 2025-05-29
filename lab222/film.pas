@@ -6,6 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, MMSystem;
 const n = 23;
+Offset = -360;  // смещение мульта по горизонтали
 type
   Tform222 = class(TForm)
     Timer1: TTimer;
@@ -197,11 +198,11 @@ end;
 
 procedure Tform222.Shtanga;
 begin
-  Canvas.Polyline([Point(shtx-125,shty), Point(shtx+125,shty)]);
-  Canvas.Rectangle(shtx-175,shty-50,shtx-125,shty+50);
-  Canvas.Rectangle(shtx-200,shty-25,shtx-174,shty+25);
-  Canvas.Rectangle(shtx+175,shty-50,shtx+125,shty+50);
-  Canvas.Rectangle(shtx+200,shty-25,shtx+174,shty+25);
+  Canvas.Polyline([Point(shtx-125 - offset,shty), Point(shtx+125 - offset,shty)]);
+  Canvas.Rectangle(shtx-175 - offset,shty-50,shtx-125 - offset,shty+50);
+  Canvas.Rectangle(shtx-200 - offset,shty-25,shtx-174 - offset,shty+25);
+  Canvas.Rectangle(shtx+175 - offset,shty-50,shtx+125 - offset,shty+50);
+  Canvas.Rectangle(shtx+200 - offset,shty-25,shtx+174 - offset,shty+25);
 end;
 
 procedure Tform222.Turnik;
@@ -212,23 +213,23 @@ begin
   ty3 := ty2;
   tx4 := tx3;
   ty4 := ty1;
-  Canvas.Polyline([Point(tx1, ty1), Point(tx2, ty2), Point(tx3, ty3), Point(tx4, ty4)]);
+  Canvas.Polyline([Point(tx1 - offset, ty1), Point(tx2 - offset, ty2), Point(tx3 - offset, ty3), Point(tx4 - offset, ty4)]);
 end;
 
 procedure Tform222.DrawCartoon;
 begin
-  person[1] := 800;
-  if (kadr >= 10) then
+  //person[1] := 800;
+  //if (kadr >= 10) then
   //Background;
   // Это сцены, которые зависят от кадров, на основе которых запускаются функции сцен, в которых запускаются функции отрисовки предметов.
-  if (kadr = 60) or (kadr = 180) or (kadr = 300) or (kadr = 420) or (kadr = 540) or (kadr = 630) or (kadr = 720) or (kadr = 780) or (kadr = 900) or (kadr = 1020) or (kadr = 1110) or (kadr = 1370) or (kadr = 1430) or (kadr = 1550) or (kadr = 1670) or (kadr = 1760) or (kadr = 1880) or (kadr = 2010) or (kadr = 2080) or (kadr = 2220) or (kadr = 2360) or (kadr = 2500) or (kadr = 2560) or (kadr = 2620) or (kadr = 2740) or (kadr = 2860) or (kadr = 2980) or (kadr = 3070) or (kadr = 3450) or (kadr = 3540) or (kadr = 3600) or (kadr = 3720) or (kadr = 3840) or (kadr = 3960) or (kadr = 4080) then
+ if (kadr = -300) or (kadr = -180) or (kadr = -60) or (kadr = 60) or (kadr = 180) or (kadr = 300) or (kadr = 420) or (kadr = 540) or (kadr = 630) or (kadr = 720) or (kadr = 780) or (kadr = 900) or (kadr = 1020) or (kadr = 1110) or (kadr = 1370) or (kadr = 1430) or (kadr = 1550) or (kadr = 1670) or (kadr = 1760) or (kadr = 1880) or (kadr = 2010) or (kadr = 2080) or (kadr = 2220) or (kadr = 2360) or (kadr = 2500) or (kadr = 2560) or (kadr = 2620) or (kadr = 2740) or (kadr = 2860) or (kadr = 2980) or (kadr = 3070) or (kadr = 3450) or (kadr = 3540) or (kadr = 3600) or (kadr = 3720) or (kadr = 3840) or (kadr = 3960) or (kadr = 4080) or (kadr = 4200) or (kadr = 4320) or (kadr = 4440) or (kadr = 4560) or (kadr = 4680) or (kadr = 4800) or (kadr = 4920) or (kadr = 5040) then
   kadr2 := 0;
-  if kadr < 60 then
+  if kadr < 60 + offset then
   begin
   person[1] := person[1] + Round(25*k / 30);
   RStartGoing;
   end
-  else if (kadr >= 60) and (kadr < 540) then
+  else if (kadr >= 60 + offset) and (kadr < 540) then
   begin
   person[1] := person[1] + Round(25*k / 30);
   RGoing;
@@ -413,7 +414,7 @@ begin
   person[1] := person[1] + Round(25*k / 30);
   RStartGoing;
   end
-  else if (kadr >= 3600) and (kadr < 4080) then
+  else if (kadr >= 3600) and (kadr < 5040) then
   begin
   person[1] := person[1] + Round(25*k / 30);
   RGoing;
