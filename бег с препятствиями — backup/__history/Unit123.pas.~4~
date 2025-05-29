@@ -1,0 +1,492 @@
+unit Unit123;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  System.UItypes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
+  Person, Vcl.MPlayer, system.types;
+
+type
+  TForm1 = class(TForm)
+    ambient, shot, fall, running: TMediaPlayer;
+    procedure FormCreate(Sender: TObject);
+    procedure FormPaint(Sender: TObject);
+    procedure PrintPerson(d: real; dx: integer; dy: integer);
+    procedure PreparePerson;
+    procedure PrintBar(p: TPoint; size: real);
+    procedure Barrier;
+    procedure Timer2Timer(Sender: TObject);
+    procedure WhiteProek;
+    procedure TimerWTimer(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure DrawFon;
+    procedure FormClick(Sender: TObject);
+  private
+  public
+  end;
+
+var
+  Form1: TForm1;
+  Frames: array of TFrameInfo;
+  FrameJudge: TFrameInfo;
+  Gun: TGun;
+  CurrentFrame1, CycleStage1: Integer;
+  CurrentFrame2, CycleStage2: Integer;
+  phase, dBlack, dRed, dJudge: Integer;
+  dRedY, stopRed, k: integer;
+  mRed: real;
+  Timer1, Timer2, TimerW: TTimer;
+  ScaleX, ScaleY: extended;
+  Person1XY, Person2XY: TPoint;
+  barcoord1, barcoord2: TPoint;
+  wh: array[1..8]of real;
+
+
+
+
+
+
+
+
+implementation
+{$R *.dfm}
+
+
+function Scale(c: integer; xy: integer): integer;
+begin
+  if (xy=0) then
+    Result := Round(c*ScaleX)
+  else
+    Result := Round(c*ScaleY);
+end;
+
+procedure TForm1.PrintBar(p: TPoint; size: real);
+begin
+  Canvas.Pen.Color := RGB(80,80,80);
+  Canvas.Pen.Width := Scale(Round(15*size),1);
+  Canvas.MoveTo(Scale(p.X,0),Scale(p.Y,1));
+  Canvas.LineTo(Scale(p.X,0), Scale(Round(p.Y - 300*size),1));
+  Canvas.LineTo(Scale(Round(p.X + 70*size),0), Scale(Round(p.Y - 300*size),1));
+  Canvas.MoveTo(Scale(p.X,0), Scale(p.Y,1));
+  Canvas.LineTo(Scale(Round(p.X + 200*size),0), Scale(p.Y,1));
+end;
+
+procedure TForm1.Barrier;
+begin
+  Timer2 := TTimer.Create(Self);
+  Timer2.Interval := 10;
+  Timer2.OnTimer := Timer2Timer;
+  Timer2.Enabled := False;
+  barcoord1 := Point(1700,1000);
+  barcoord2 := Point(2440,775);
+end;
+
+procedure TForm1.Timer2Timer(Sender: TObject);
+begin
+  dec(barcoord1.x,20);
+  if barcoord1.x <= -200 then
+    barcoord1.x := 2560;
+  dec(barcoord2.x,20);
+  if barcoord2.x <= -200 then
+    barcoord2.x := 2560;
+  dec(dJudge,Scale(20,0));
+  Invalidate;
+end;
+
+procedure TForm1.WhiteProek;
+begin
+  TimerW := TTimer.Create(Self);
+  TimerW.Interval := 1;
+  TimerW.OnTimer := TimerWTimer;
+  TimerW.Enabled := False;
+  wh[1] := 2400;
+  wh[2] := 2560;
+  wh[3] := 1280;
+  wh[4] := 1280;
+  wh[5] := 160+2240*3 div 4;
+  wh[6] := 2560*3 div 4;
+  wh[7] := 160+2240 div 4;
+  wh[8] := 2560 div 4;
+end;
+
+procedure TForm1.TimerWTimer(Sender: TObject);
+var
+  i: integer;
+begin
+  for i := 1 to 4 do begin
+    wh[2*i-1] := wh[2*i-1]- 20*224 div 256;
+    wh[2*i] := wh[2*i]-20;
+    if wh[2*i]<=0 then begin
+      wh[2*i-1] := 2400;
+      wh[2*i] := 2560;
+    end;
+  end;
+  Invalidate;
+end;
+
+procedure TForm1.DrawFon;
+var
+  i: integer;
+begin
+  Canvas.Pen.Color := RGB(126,200,80);
+  Canvas.Pen.Width := Scale(1000,1);
+  Canvas.MoveTo(Scale(1,0),Scale(940,1));
+  Canvas.LineTo(Scale(2560,0),Scale(940,1));
+
+  Canvas.Pen.Color := RGB(135,206,235);
+  Canvas.Pen.Width := Scale(440,1);
+  Canvas.MoveTo(Scale(1,0),Scale(220,1));
+  Canvas.LineTo(Scale(2560,0),Scale(220,1));
+
+  Canvas.Pen.Color := RGB(161,67,42);
+  Canvas.Pen.Width := Scale(300,1);
+  Canvas.MoveTo(Scale(1,0),Scale(900,1));
+  Canvas.LineTo(Scale(2560,0),Scale(900,1));
+
+  Canvas.Pen.Color := RGB(255,255,255);
+  Canvas.Pen.Width := Scale(20,1);
+  Canvas.MoveTo(Scale(1,0),Scale(950,1));
+  Canvas.LineTo(Scale(2560,0),Scale(950,1));
+
+  Canvas.Pen.Width := Scale(10,1);
+  Canvas.MoveTo(Scale(1,0),Scale(820,1));
+  Canvas.LineTo(Scale(2560,0),Scale(820,1));
+
+  Canvas.Pen.Width := Scale(10,1);
+  for i := 1 to 4 do begin
+    Canvas.MoveTo(Scale(Round(wh[2*i-1]),0),Scale(820,1));
+    Canvas.LineTo(Scale(Round(wh[2*i]),0),Scale(950,1));
+  end;
+end;
+
+
+
+
+
+
+
+
+
+
+procedure TForm1.PrintPerson(d: real; dx: integer; dy: integer);
+var
+  i: integer;
+  Frame: TFrameInfo;
+  G: TGun;
+begin
+  d := (1-d);
+  if (dy=Scale(-740,1)) then begin
+    Frame := FrameJudge;
+    G := Gun;
+
+    Canvas.Pen.Width := Round(2 * ScaleX);
+    Canvas.Brush.Color := RGB(135,206,235);
+    inc(G.a.left, Round(d*(Frame.pmax.X-G.a.left)));
+    inc(G.a.top, Round(d*(Frame.pmax.Y-G.a.top)));
+    inc(G.a.right, Round(d*(Frame.pmax.X-G.a.right)));
+    inc(G.a.bottom, Round(d*(Frame.pmax.Y-G.a.bottom)));
+    inc(G.a.left,dx);inc(G.a.right,dx);inc(G.a.top,dy);inc(G.a.bottom,dy);
+    Canvas.Ellipse(G.a);
+
+    Canvas.Pen.Width := Round(5 * ScaleX);
+    Canvas.Brush.Color := clBLack;
+    inc(G.b.left, Round(d*(Frame.pmax.X-G.b.left)));
+    inc(G.b.top, Round(d*(Frame.pmax.Y-G.b.top)));
+    inc(G.b.right, Round(d*(Frame.pmax.X-G.b.right)));
+    inc(G.b.bottom, Round(d*(Frame.pmax.Y-G.b.bottom)));
+    inc(G.b.left,dx);inc(G.b.right,dx);inc(G.b.top,dy);inc(G.b.bottom,dy);
+    Canvas.Rectangle(G.b);
+
+    inc(G.c.left, Round(d*(Frame.pmax.X-G.c.left)));
+    inc(G.c.top, Round(d*(Frame.pmax.Y-G.c.top)));
+    inc(G.c.right, Round(d*(Frame.pmax.X-G.c.right)));
+    inc(G.c.bottom, Round(d*(Frame.pmax.Y-G.c.bottom)));
+    inc(G.c.left,dx);inc(G.c.right,dx);inc(G.c.top,dy);inc(G.c.bottom,dy);
+    Canvas.Rectangle(G.c);
+
+    Canvas.Brush.Color := clWhite;
+    Canvas.Pen.Color := RGB(0,0,150);
+    Canvas.Pen.Width := Round(5 * ScaleX);
+  end;
+  if (dy=Scale(-320,1)) then begin
+    Frame := Frames[CurrentFrame1];
+    Canvas.Pen.Color := clBlack;
+    Canvas.Pen.Width := Round(5 * ScaleX);
+  end;
+  if (dy=Scale(dRedY,1)) then begin
+    Frame := Frames[CurrentFrame2];
+    Canvas.Pen.Color := clRed;
+    Canvas.Pen.Width := Round(5 * ScaleX);
+  end;
+
+  for i := 1 to 3 do begin
+    inc(Frame.handl[i].X, Round(d*(Frame.pmax.X-Frame.handl[i].X)));
+    inc(Frame.handl[i].Y, Round(d*(Frame.pmax.Y-Frame.handl[i].Y)));
+    inc(Frame.handr[i].X, Round(d*(Frame.pmax.X-Frame.handr[i].X)));
+    inc(Frame.handr[i].Y, Round(d*(Frame.pmax.Y-Frame.handr[i].Y)));
+    inc(Frame.legl[i].X, Round(d*(Frame.pmax.X-Frame.legl[i].X)));
+    inc(Frame.legl[i].Y, Round(d*(Frame.pmax.Y-Frame.legl[i].Y)));
+    inc(Frame.legr[i].X, Round(d*(Frame.pmax.X-Frame.legr[i].X)));
+    inc(Frame.legr[i].Y, Round(d*(Frame.pmax.Y-Frame.legr[i].Y)));
+    if (i<3) then begin
+      inc(Frame.body[i].X, Round(d*(Frame.pmax.X-Frame.body[i].X)));
+      inc(Frame.body[i].Y, Round(d*(Frame.pmax.Y-Frame.body[i].Y)));
+    end;
+  end;
+  inc(Frame.head.left, Round(d*(Frame.pmax.X-Frame.head.left)));
+  inc(Frame.head.top, Round(d*(Frame.pmax.Y-Frame.head.top)));
+  inc(Frame.head.right, Round(d*(Frame.pmax.X-Frame.head.right)));
+  inc(Frame.head.bottom, Round(d*(Frame.pmax.Y-Frame.head.bottom)));
+
+  for i := 1 to 3 do begin
+    inc(Frame.handl[i].X,dx);
+    inc(Frame.handl[i].Y,dy);
+    inc(Frame.handr[i].X,dx);
+    inc(Frame.handr[i].Y,dy);
+    inc(Frame.legl[i].X,dx);
+    inc(Frame.legl[i].Y,dy);
+    inc(Frame.legr[i].X,dx);
+    inc(Frame.legr[i].Y,dy);
+    if (i<3) then begin
+      inc(Frame.body[i].X,dx);
+      inc(Frame.body[i].Y,dy);
+    end;
+  end;
+  inc(Frame.head.left,dx);
+  inc(Frame.head.top,dy);
+  Frame.head.width := Frame.head.width+dx;
+  Frame.head.height := Frame.head.height+dy;
+
+  Canvas.PolyLine(Frame.handl);
+  Canvas.PolyLine(Frame.handr);
+  Canvas.PolyLine(Frame.legl);
+  Canvas.PolyLine(Frame.legr);
+  Canvas.PolyLine(Frame.body);
+  Canvas.Ellipse(Frame.head);
+end;
+
+
+procedure TForm1.PreparePerson;
+begin
+  Person.LoadFrames;
+  CurrentFrame1 := 17;
+  CurrentFrame2 := 17;
+  CycleStage1 := 1;
+  CycleStage2 := 1;
+  Timer1 := TTimer.Create(Self);
+  Timer1.Interval := 90;
+  Timer1.OnTimer := Timer1Timer;
+  Timer1.Enabled := False;
+  dBlack := Scale(-1000,0);
+  dRed := Scale(-600,0);
+  dJudge := Scale(-500,0);
+  mRed := 0.5;
+  dRedY := Scale(-420,1);
+  stopRed := 0;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  Inc(CurrentFrame1);
+  Inc(CurrentFrame2);
+  if dBlack<Scale(-500,0) then begin
+    inc(dBlack,Scale(150,0));
+    inc(dRed,Scale(150,0));
+  end
+  else begin
+    if k = 0 then begin
+      Timer2.Enabled := True;
+      TimerW.Enabled := True;
+    end;
+    k := 1;
+  end;
+
+
+
+  case CycleStage1 of
+    1: begin
+      if CurrentFrame1 = 6 then
+        CurrentFrame1 := 0;
+      if CurrentFrame1 = 19 then
+        CurrentFrame1 := 0;
+    end;
+
+    2: begin
+      if CurrentFrame1 = 13 then begin
+        CurrentFrame1 := 0;
+        CycleStage1 := 1;
+      end;
+    end;
+
+    3: begin
+      if CurrentFrame1 = 6 then
+        fall.Play;
+      if CurrentFrame1 = 10 then
+        CurrentFrame1 := 13;
+      if CurrentFrame1 > 16 then begin
+        CurrentFrame1 := 16;
+        Timer2.Enabled := False;
+        TimerW.Enabled := False;
+      end;
+    end;
+
+    4: begin
+      CurrentFrame1 := 31;
+      Timer2.Enabled := False;
+      TimerW.Enabled := False;
+    end;
+
+    5: begin
+      if CurrentFrame1 = 6 then
+        CurrentFrame1 := 0;
+      inc(dBlack,Scale(100,0));
+      if dBlack>Scale(2000,0) then begin
+        Timer1.Enabled := False;
+        running.Stop;
+        ShowMessage('The end');
+      end;
+    end;
+  end;
+
+
+
+  case CycleStage2 of
+    1: begin
+      if CurrentFrame2 = 6 then
+        CurrentFrame2 := 0;
+      if CurrentFrame2 = 19 then
+        CurrentFrame2 := 3;
+    end;
+
+    2: begin
+      if CurrentFrame2 = 13 then begin
+        CurrentFrame2 := 0;
+        CycleStage2 := 1;
+      end;
+    end;
+
+    3: begin
+      if CurrentFrame2 = 13 then
+        CurrentFrame2 := 0;
+      if CurrentFrame2 = 6 then
+        CurrentFrame2 := 0;
+      if (CurrentFrame2<6) and (Scale(dRed,0) < Scale(700,0)) then
+        inc(dRed,Scale(100,0));
+      if (Scale(dRed,0) >= Scale(700,0)) then begin
+        running.Stop;
+        CurrentFrame2 := CurrentFrame2-1;
+        inc(stopRed);
+      end;
+      if stopRed = 10 then begin
+        CycleStage2 := 4;
+        CurrentFrame2 := 18;
+        running.Play;
+      end;
+    end;
+
+    4: begin
+      if CurrentFrame2 = 25 then
+        CurrentFrame2 := 18;
+      if (abs(mRed-0.8)>0.001) then begin
+        mRed := mRed+0.05;
+        dRed := dRed-Scale(40,0);
+        dRedY := dRedY+Scale(40,1);
+      end
+      else begin
+        CycleStage2 := 5;
+        CurrentFrame2 := 24;
+        running.Stop;
+      end;
+    end;
+
+    5: begin
+      if CurrentFrame2 = 28 then begin
+        CurrentFrame1 := 30;
+        inc(dBlack,300);
+      end;
+      if CurrentFrame2 = 29 then begin
+        CurrentFrame1 := 31;
+        CycleStage1 := 4;
+        inc(dBlack,Scale(200,0));
+        CycleStage2 := 6;
+      end;
+    end;
+
+    6: begin
+      CurrentFrame2 := 29;
+    end;
+
+    7: begin
+      if CurrentFrame2 = 6 then
+        CurrentFrame2 := 0;
+      inc(dRed,100);
+    end;
+  end;
+  Invalidate;
+end;
+
+
+
+procedure TForm1.FormClick(Sender: TObject);
+begin
+  if phase = 0 then begin
+    Timer1.Enabled := True;
+    running.Play;
+    shot.Play;
+  end;
+  inc(phase);
+  if phase > 2 then
+    phase := 2;
+  if CurrentFrame1 = 31 then begin
+    running.Play;
+    CurrentFrame1 := 0;
+    CycleStage1 := 5;
+    CurrentFrame2 := 3;
+    CycleStage2 := 7;
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+    //BorderStyle := bsNone;
+    WindowState := wsMaximized;
+    Width := Screen.Width;
+    Height := Screen.Height;
+    ScaleX := Screen.Width / 2560;
+    ScaleY := Screen.Height / 1440;
+
+    ambient.Open;
+    ambient.Play;
+    shot.Open;
+    fall.Open;
+    running.Open;
+
+    Barrier;
+    WhiteProek;
+    PreparePerson;
+    phase := 0;
+    k := 0;
+end;
+
+procedure TForm1.FormPaint(Sender: TObject);
+begin
+  DrawFon;
+  PrintBar(barcoord2, 0.66);
+  PrintBar(barcoord1, 1);
+  if (Scale(barcoord1.x,0)-Scale(250, 0)-(Frames[CurrentFrame1].pmax.X+Scale(dBlack,0))>=Scale(-10,0))
+  and(Scale(barcoord1.x,0)-Scale(250, 0)-(Frames[CurrentFrame1].pmax.X+Scale(dBlack,0))<Scale(10,0)) then begin
+    CurrentFrame1 := 6;
+    CycleStage1 := phase+1;
+  end;
+  if (Scale(barcoord2.x,0)-Scale(250, 0)-(Frames[CurrentFrame2].pmax.X+Scale(dRed,0))>=Scale(-10,0))
+  and(Scale(barcoord2.x,0)-Scale(250, 0)-(Frames[CurrentFrame2].pmax.X+Scale(dRed,0))<Scale(10,0)) then begin
+    CurrentFrame2 := 6;
+    CycleStage2 := phase+1;
+  end;
+  PrintPerson(0.5, Scale(dJudge,0), Scale(-740,1));
+  PrintPerson(mRed, Scale(dRed,0), Scale(dRedY,1));
+  PrintPerson(0.8, Scale(dBlack,0), Scale(-320,1));
+end;
+
+end.

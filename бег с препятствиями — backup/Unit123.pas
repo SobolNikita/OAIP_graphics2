@@ -5,11 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.UItypes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
-  Person, Vcl.MPlayer, system.types;
+  Person, system.types;
 
 type
   TForm1 = class(TForm)
-    ambient, shot, fall, running: TMediaPlayer;
     procedure FormCreate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure PrintPerson(d: real; dx: integer; dy: integer);
@@ -320,8 +319,6 @@ begin
     end;
 
     3: begin
-      if CurrentFrame1 = 6 then
-        fall.Play;
       if CurrentFrame1 = 10 then
         CurrentFrame1 := 13;
       if CurrentFrame1 > 16 then begin
@@ -343,7 +340,6 @@ begin
       inc(dBlack,Scale(100,0));
       if dBlack>Scale(2000,0) then begin
         Timer1.Enabled := False;
-        running.Stop;
         ShowMessage('The end');
       end;
     end;
@@ -374,14 +370,12 @@ begin
       if (CurrentFrame2<6) and (Scale(dRed,0) < Scale(700,0)) then
         inc(dRed,Scale(100,0));
       if (Scale(dRed,0) >= Scale(700,0)) then begin
-        running.Stop;
         CurrentFrame2 := CurrentFrame2-1;
         inc(stopRed);
       end;
       if stopRed = 10 then begin
         CycleStage2 := 4;
         CurrentFrame2 := 18;
-        running.Play;
       end;
     end;
 
@@ -396,7 +390,6 @@ begin
       else begin
         CycleStage2 := 5;
         CurrentFrame2 := 24;
-        running.Stop;
       end;
     end;
 
@@ -432,14 +425,11 @@ procedure TForm1.FormClick(Sender: TObject);
 begin
   if phase = 0 then begin
     Timer1.Enabled := True;
-    running.Play;
-    shot.Play;
   end;
   inc(phase);
   if phase > 2 then
     phase := 2;
   if CurrentFrame1 = 31 then begin
-    running.Play;
     CurrentFrame1 := 0;
     CycleStage1 := 5;
     CurrentFrame2 := 3;
@@ -456,11 +446,7 @@ begin
     ScaleX := Screen.Width / 2560;
     ScaleY := Screen.Height / 1440;
 
-    ambient.Open;
-    ambient.Play;
-    shot.Open;
-    fall.Open;
-    running.Open;
+  
 
     Barrier;
     WhiteProek;

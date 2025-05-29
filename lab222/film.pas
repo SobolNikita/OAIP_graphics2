@@ -4,12 +4,11 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, MMSystem, Vcl.MPlayer;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, MMSystem;
 const n = 23;
 type
   Tform222 = class(TForm)
     Timer1: TTimer;
-    MediaPlayer1: TMediaPlayer;
     procedure FormPaint(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure DrawMan;
@@ -95,8 +94,6 @@ begin
   end;
   tr := 0;
   //MediaPlayer1.FileName := 'fon_music.mp3';
-  MediaPlayer1.Open;
-  MediaPlayer1.Play;
   //DoubleBuffered := True;
 end;
 
@@ -419,9 +416,7 @@ begin
   begin
   person[1] := person[1] + Round(25*k / 30);
   RGoing;
-  end
-  else if (kadr = 4100) then
-  MediaPlayer1.Close;
+  end;
 
 
   kadr := kadr + 1;

@@ -409,7 +409,7 @@ begin
   Form1.FormClick(self);
   Form1.OnClick := nil;
 
-  ///
+  (*//
   form222.canvas.Handle := self.canvas.Handle;
   form222.OnCreate := nil;
   form222.Parent := Self;             // родительска€ форма Ч mainForm
@@ -420,7 +420,7 @@ begin
   form222.DrawPerson();            // инициализаци€
 
   form222.Timer1.Enabled := false;     // запуск анимации
-  ///
+  ///   *)
 
   //ћузыка
   curaddY := -40;
