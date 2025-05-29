@@ -12,7 +12,6 @@ type
     MediaPlayer1: TMediaPlayer;
     procedure FormPaint(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
-  private
     procedure DrawMan;
     procedure DrawPerson;
     procedure Coordinates;
@@ -36,6 +35,7 @@ type
     procedure DrawHouse1;
     procedure DrawHouse2;
     procedure DrawHouse3;
+  private
   public
     { Public declarations }
   end;

@@ -398,16 +398,29 @@ procedure TmainForm.Button1Click(Sender: TObject);
 begin
   mainForm.Button1.Visible := false;
 
-
   Form1.Parent := Self;             // родительска€ форма Ч mainForm
   Form1.Align := alClient;          // заполнить всЄ окно
   Form1.BorderStyle := bsNone;
   Form1.Show;
   Form1.FormCreate(nil);            // инициализаци€
-  Timer1.Enabled := True;     // запуск анимации
-  Timer2.Enabled := True;
-  TimerW.Enabled := True;
+  Unit123.Timer1.Enabled := True;     // запуск анимации
+  Unit123.Timer2.Enabled := True;
+  Unit123.TimerW.Enabled := True;
   Form1.FormClick(self);
+  Form1.OnClick := nil;
+
+  ///
+  form222.canvas.Handle := self.canvas.Handle;
+  form222.OnCreate := nil;
+  form222.Parent := Self;             // родительска€ форма Ч mainForm
+  form222.Align := alClient;          // заполнить всЄ окно
+  form222.BorderStyle := bsNone;
+  form222.show;
+
+  form222.DrawPerson();            // инициализаци€
+
+  form222.Timer1.Enabled := false;     // запуск анимации
+  ///
 
   //ћузыка
   curaddY := -40;
@@ -444,8 +457,6 @@ end;
 
 
 procedure TmainForm.Timer2Timer(Sender: TObject);
-const
-  FADE_MS = 500; // длительность эффекта в мс
 begin
   if FrameIndex > 0 then
   begin

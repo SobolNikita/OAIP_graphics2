@@ -5,10 +5,6 @@ object form222: Tform222
   ClientHeight = 561
   ClientWidth = 784
   Color = clBtnFace
-  Constraints.MaxHeight = 600
-  Constraints.MaxWidth = 800
-  Constraints.MinHeight = 600
-  Constraints.MinWidth = 800
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
