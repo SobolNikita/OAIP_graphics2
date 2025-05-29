@@ -22,6 +22,7 @@ type
     { Private declarations }
     FrameIndex: integer; // Индекс текущего кадра
     XImage, YImage: Integer; // Позиция фона
+    ShowBothCartoons: Boolean; // Флаг для отрисовки обоих мультиков
     procedure DrawBackground; // Процедура для рисования фона
     procedure DrawCharacter;
   public
@@ -43,6 +44,7 @@ const CNT_RUN_FRAMES = 11;
 
 var
   mainForm: TmainForm;
+  form222: Tform222; // Форма с мультиком со штангой
   X, Y: integer;
   MC: TMyCanvas;
   bgScales: array[1..CNT_JUMP_FRAMES] of real = (
@@ -391,12 +393,23 @@ begin
   MC.Handle := Canvas.Handle; // назначаем холст окна областью вывода
   DrawBackground; // Рисуем фон
   DrawCharacter; // Рисуем персонажа
+
+  if ShowBothCartoons and Assigned(form222) then
+    begin
+      form222.Canvas.Handle := Canvas.Handle; // Перенаправляем вывод
+      form222.Canvas.Brush.Style:= bsClear;
+      form222.DrawCartoon; // Рисуем мультик со штангой
+    end;
 end;
 
 
 procedure TmainForm.Button1Click(Sender: TObject);
 begin
   mainForm.Button1.Visible := false;
+
+  // Создаем форму с мультиком со штангой (но не показываем её)
+  form222 := Tform222.Create(nil);
+  form222.OnCreate(nil); // Инициализируем анимацию
 
   Form1.Parent := Self;             // родительская форма — mainForm
   Form1.Align := alClient;          // заполнить всё окно
@@ -435,8 +448,9 @@ begin
 
   X := 100;
   Y := 100;
-  FrameIndex := -40; // ОСТАВЛЯЕМ КАКОЕ-ТО ВРЕМЯ НА ПРЕДЫДУЩИЙ МУЛЬТИК
+  FrameIndex := 0; // ОСТАВЛЯЕМ КАКОЕ-ТО ВРЕМЯ НА ПРЕДЫДУЩИЙ МУЛЬТИК
   Timer1.Enabled := True; // Запускаем таймер
+  ShowBothCartoons := False; // Показываем только основной мультик
 end;
 
 procedure TmainForm.FormPaint(Sender: TObject);
@@ -465,6 +479,15 @@ begin
       Form1.Free;
       Form1 := nil;
     end;
+
+    // Включаем отрисовку обоих мультиков при победе
+    if FrameIndex >= CNT_RUN_FRAMES +CNT_JUMP_FRAMES + CNT_HIT_FRAMES + 41 + CNT_JUMP2_FRAMES then
+    begin
+      ShowBothCartoons := True;
+    end
+    else
+      ShowBothCartoons := False;
+
     DrawFrame; // Рисуем текущий кадр
     XImage := XImage - 12;
   end;

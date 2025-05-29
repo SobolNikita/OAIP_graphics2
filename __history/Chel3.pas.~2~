@@ -1,0 +1,54 @@
+unit Chel3;
+
+interface
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ExtDlgs,
+  Vcl.MPlayer, system.types, Unit123, system.math;
+
+procedure FormPaint(Sender: TObject);
+
+implementation
+
+procedure FormPaint(Sender: TObject);
+begin
+  // Основная функция: начальные значения и функции
+  DrawMan;
+  kadr := 0;
+  kadr2 := 0;
+  person[1] := -100;
+  person[2] := 230;
+  lhand0 := 45;
+  lhand1 := 0;
+  rhand0 := 45;
+  rhand1 := 0;
+  lleg0 := 45;
+  lleg1 := 0;
+  rleg0 := 45;
+  rleg1 := 0;
+  lfeet := 1;
+  rfeet := 1;
+  lfeet2 := 1;
+  rfeet2 := 1;
+  body := 0;
+  tx1 := 1040;
+  ty1 := 590;
+  shtx := 1215;
+  shty := 416;
+  k := 1;
+  xHouses := 10;
+  Randomize;
+  arr[1].dist := 10;
+  arr[1].h := Random(3);
+  for var i := 2 to 23 do
+  begin
+    arr[i].h := Random(3);
+    arr[i].dist := Random(3) * 25 + 200 + arr[i - 1].dist;
+  end;
+  tr := 0;
+  // MediaPlayer1.FileName := 'fon_music.mp3';
+  // DoubleBuffered := True;
+end;
+
+end.

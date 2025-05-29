@@ -217,8 +217,9 @@ end;
 
 procedure Tform222.DrawCartoon;
 begin
+  person[1] := 800;
   if (kadr >= 10) then
-  Background;
+  //Background;
   // Это сцены, которые зависят от кадров, на основе которых запускаются функции сцен, в которых запускаются функции отрисовки предметов.
   if (kadr = 60) or (kadr = 180) or (kadr = 300) or (kadr = 420) or (kadr = 540) or (kadr = 630) or (kadr = 720) or (kadr = 780) or (kadr = 900) or (kadr = 1020) or (kadr = 1110) or (kadr = 1370) or (kadr = 1430) or (kadr = 1550) or (kadr = 1670) or (kadr = 1760) or (kadr = 1880) or (kadr = 2010) or (kadr = 2080) or (kadr = 2220) or (kadr = 2360) or (kadr = 2500) or (kadr = 2560) or (kadr = 2620) or (kadr = 2740) or (kadr = 2860) or (kadr = 2980) or (kadr = 3070) or (kadr = 3450) or (kadr = 3540) or (kadr = 3600) or (kadr = 3720) or (kadr = 3840) or (kadr = 3960) or (kadr = 4080) then
   kadr2 := 0;
