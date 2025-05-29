@@ -1,0 +1,806 @@
+unit Person;
+interface
+
+uses
+  Types, Dialogs, Sysutils;
+
+type
+  TFrameInfo = record
+      handl, handr, legl, legr: array [1..3] of TPoint;
+      body: array [1..2] of TPoint;
+      head: TRect;
+      pmax: TPoint;
+  end;
+
+  TGun = record
+    a, b, c: TRect;
+  end;
+
+ procedure LoadFrames;
+
+
+
+implementation
+
+uses Unit1;
+
+procedure LoadFrames;
+begin
+
+  FrameJudge.handl[1] := Point(Round(580 * ScaleX), Round(690 * ScaleY));
+  FrameJudge.handl[2] := Point(Round(520 * ScaleX), Round(850 * ScaleY));
+  FrameJudge.handl[3] := Point(Round(520 * ScaleX), Round(1000 * ScaleY));
+
+  FrameJudge.handr[1] := Point(Round(580 * ScaleX), Round(690 * ScaleY));
+  FrameJudge.handr[2] := Point(Round(715 * ScaleX), Round(540 * ScaleY));
+  FrameJudge.handr[3] := Point(Round(715 * ScaleX), Round(385 * ScaleY));
+
+  FrameJudge.legl[1] := Point(Round(580 * ScaleX), Round(1000 * ScaleY));
+  FrameJudge.legl[2] := Point(Round(520 * ScaleX), Round(1180 * ScaleY));
+  FrameJudge.legl[3] := Point(Round(520 * ScaleX), Round(1340 * ScaleY));
+
+  FrameJudge.legr[1] := Point(Round(580 * ScaleX), Round(1000 * ScaleY));
+  FrameJudge.legr[2] := Point(Round(640 * ScaleX), Round(1180 * ScaleY));
+  FrameJudge.legr[3] := Point(Round(640 * ScaleX), Round(1340 * ScaleY));
+
+  FrameJudge.head := Rect(Round(510 * ScaleX), Round(640 * ScaleY), Round(650 * ScaleX), Round(500 * ScaleY));
+  FrameJudge.body[1] := Point(Round(580 * ScaleX), Round(1000 * ScaleY));
+  FrameJudge.body[2] := Point(Round(580 * ScaleX), Round(540 * ScaleY));
+
+  FrameJudge.pmax := Point(Round(740 * ScaleX), Round(1340 * ScaleY));
+
+  Gun.a := Rect(Round(712 * ScaleX), Round(362 * ScaleY), Round(728 * ScaleX), Round(378 * ScaleY));
+  Gun.b := Rect(Round(700 * ScaleX), Round(330 * ScaleY), Round(715 * ScaleX), Round(385 * ScaleY));
+  Gun.c := Rect(Round(715 * ScaleX), Round(375 * ScaleY), Round(740 * ScaleX), Round(385 * ScaleY));
+
+
+
+  SetLength(Frames, 32);
+
+
+  //running
+  Frames[0].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[0].handl[2] := Point(Round(1190 * ScaleX), Round(700 * ScaleY));
+  Frames[0].handl[3] := Point(Round(1185 * ScaleX), Round(830 * ScaleY));
+
+  Frames[0].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[0].handr[2] := Point(Round(1530 * ScaleX), Round(750 * ScaleY));
+  Frames[0].handr[3] := Point(Round(1575 * ScaleX), Round(595 * ScaleY));
+
+  Frames[0].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[0].legl[2] := Point(Round(1220 * ScaleX), Round(1180 * ScaleY));
+  Frames[0].legl[3] := Point(Round(1010 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[0].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[0].legr[2] := Point(Round(1450 * ScaleX), Round(1130 * ScaleY));
+  Frames[0].legr[3] := Point(Round(1400 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[0].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[0].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[0].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[0].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[1].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[1].handl[2] := Point(Round(1190 * ScaleX), Round(810 * ScaleY));
+  Frames[1].handl[3] := Point(Round(1300 * ScaleX), Round(917 * ScaleY));
+
+  Frames[1].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[1].handr[2] := Point(Round(1380 * ScaleX), Round(874 * ScaleY));
+  Frames[1].handr[3] := Point(Round(1520 * ScaleX), Round(864 * ScaleY));
+
+  Frames[1].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[1].legl[2] := Point(Round(1280 * ScaleX), Round(1190 * ScaleY));
+  Frames[1].legl[3] := Point(Round(1110 * ScaleX), Round(1130 * ScaleY));
+
+  Frames[1].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[1].legr[2] := Point(Round(1420 * ScaleX), Round(1180 * ScaleY));
+  Frames[1].legr[3] := Point(Round(1420 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[1].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[1].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[1].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[1].pmax := Point(Round(1520 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[2].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[2].handl[2] := Point(Round(1250 * ScaleX), Round(850 * ScaleY));
+  Frames[2].handl[3] := Point(Round(1380 * ScaleX), Round(870 * ScaleY));
+
+  Frames[2].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[2].handr[2] := Point(Round(1350 * ScaleX), Round(864 * ScaleY));
+  Frames[2].handr[3] := Point(Round(1500 * ScaleX), Round(870 * ScaleY));
+
+  Frames[2].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[2].legl[2] := Point(Round(1310 * ScaleX), Round(1150 * ScaleY));
+  Frames[2].legl[3] := Point(Round(1150 * ScaleX), Round(1120 * ScaleY));
+
+  Frames[2].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[2].legr[2] := Point(Round(1370 * ScaleX), Round(1180 * ScaleY));
+  Frames[2].legr[3] := Point(Round(1300 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[2].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[2].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[2].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[2].pmax := Point(Round(1500 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[3].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[3].handl[2] := Point(Round(1190 * ScaleX), Round(770 * ScaleY));
+  Frames[3].handl[3] := Point(Round(1290 * ScaleX), Round(880 * ScaleY));
+
+  Frames[3].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[3].handr[2] := Point(Round(1440 * ScaleX), Round(840 * ScaleY));
+  Frames[3].handr[3] := Point(Round(1560 * ScaleX), Round(745 * ScaleY));
+
+  Frames[3].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[3].legl[2] := Point(Round(1420 * ScaleX), Round(1080 * ScaleY));
+  Frames[3].legl[3] := Point(Round(1240 * ScaleX), Round(1170 * ScaleY));
+
+  Frames[3].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[3].legr[2] := Point(Round(1320 * ScaleX), Round(1220 * ScaleY));
+  Frames[3].legr[3] := Point(Round(1210 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[3].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[3].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[3].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[3].pmax := Point(Round(1560 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[4].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[4].handl[2] := Point(Round(1170 * ScaleX), Round(750 * ScaleY));
+  Frames[4].handl[3] := Point(Round(1270 * ScaleX), Round(880 * ScaleY));
+
+  Frames[4].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[4].handr[2] := Point(Round(1460 * ScaleX), Round(820 * ScaleY));
+  Frames[4].handr[3] := Point(Round(1565 * ScaleX), Round(725 * ScaleY));
+
+  Frames[4].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[4].legl[2] := Point(Round(1460 * ScaleX), Round(1080 * ScaleY));
+  Frames[4].legl[3] := Point(Round(1240 * ScaleX), Round(1210 * ScaleY));
+
+  Frames[4].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[4].legr[2] := Point(Round(1320 * ScaleX), Round(1200 * ScaleY));
+  Frames[4].legr[3] := Point(Round(1150 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[4].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[4].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[4].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[4].pmax := Point(Round(1565 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[5].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[5].handl[2] := Point(Round(1190 * ScaleX), Round(760 * ScaleY));
+  Frames[5].handl[3] := Point(Round(1240 * ScaleX), Round(867 * ScaleY));
+
+  Frames[5].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[5].handr[2] := Point(Round(1530 * ScaleX), Round(760 * ScaleY));
+  Frames[5].handr[3] := Point(Round(1570 * ScaleX), Round(620 * ScaleY));
+
+  Frames[5].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[5].legl[2] := Point(Round(1470 * ScaleX), Round(1130 * ScaleY));
+  Frames[5].legl[3] := Point(Round(1380 * ScaleX), Round(1250 * ScaleY));
+
+  Frames[5].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[5].legr[2] := Point(Round(1180 * ScaleX), Round(1200 * ScaleY));
+  Frames[5].legr[3] := Point(Round(1040 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[5].head := Rect(Round(1300 * ScaleX), Round(500 * ScaleY), Round(1440 * ScaleX), Round(640 * ScaleY));
+  Frames[5].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[5].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[5].pmax := Point(Round(1570 * ScaleX), Round(1340 * ScaleY));
+
+
+//jump
+  Frames[6].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[6].handl[2] := Point(Round(1200 * ScaleX), Round(800 * ScaleY));
+  Frames[6].handl[3] := Point(Round(1290 * ScaleX), Round(920 * ScaleY));
+
+
+  Frames[6].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[6].handr[2] := Point(Round(1540 * ScaleX), Round(750 * ScaleY));
+  Frames[6].handr[3] := Point(Round(1630 * ScaleX), Round(610 * ScaleY));
+
+  Frames[6].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[6].legl[2] := Point(Round(1200 * ScaleX), Round(1150 * ScaleY));
+  Frames[6].legl[3] := Point(Round(1060 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[6].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[6].legr[2] := Point(Round(1500 * ScaleX), Round(1060 * ScaleY));
+  Frames[6].legr[3] := Point(Round(1420 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[6].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[6].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[6].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[6].pmax := Point(Round(1630 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[7].handl[1] := Point(Round(1520 * ScaleX), Round(690 * ScaleY));
+  Frames[7].handl[2] := Point(Round(1300 * ScaleX), Round(700 * ScaleY));
+  Frames[7].handl[3] := Point(Round(1350 * ScaleX), Round(810 * ScaleY));
+
+  Frames[7].handr[1] := Point(Round(1520 * ScaleX), Round(690 * ScaleY));
+  Frames[7].handr[2] := Point(Round(1730 * ScaleX), Round(750 * ScaleY));
+  Frames[7].handr[3] := Point(Round(1840 * ScaleX), Round(650 * ScaleY));
+
+  Frames[7].legl[1] := Point(Round(1280 * ScaleX), Round(950 * ScaleY));
+  Frames[7].legl[2] := Point(Round(1240 * ScaleX), Round(1100 * ScaleY));
+  Frames[7].legl[3] := Point(Round(1070 * ScaleX), Round(1230 * ScaleY));
+
+  Frames[7].legr[1] := Point(Round(1280 * ScaleX), Round(950 * ScaleY));
+  Frames[7].legr[2] := Point(Round(1520 * ScaleX), Round(890 * ScaleY));
+  Frames[7].legr[3] := Point(Round(1670 * ScaleX), Round(1010 * ScaleY));
+
+  Frames[7].head := Rect(Round(1550 * ScaleX), Round(640 * ScaleY), Round(1690 * ScaleX), Round(500 * ScaleY));
+  Frames[7].body[1] := Point(Round(1280 * ScaleX), Round(950 * ScaleY));
+  Frames[7].body[2] := Point(Round(1650 * ScaleX), Round(560 * ScaleY));
+
+  Frames[7].pmax := Point(Round(1840 * ScaleX), Round(1230 * ScaleY));
+
+
+  Frames[8].handl[1] := Point(Round(1560 * ScaleX), Round(640 * ScaleY));
+  Frames[8].handl[2] := Point(Round(1690 * ScaleX), Round(680 * ScaleY));
+  Frames[8].handl[3] := Point(Round(1890 * ScaleX), Round(640 * ScaleY));
+
+  Frames[8].handr[1] := Point(Round(1560 * ScaleX), Round(640 * ScaleY));
+  Frames[8].handr[2] := Point(Round(1690 * ScaleX), Round(700 * ScaleY));
+  Frames[8].handr[3] := Point(Round(1900 * ScaleX), Round(660 * ScaleY));
+
+  Frames[8].legl[1] := Point(Round(1280 * ScaleX), Round(750 * ScaleY));
+  Frames[8].legl[2] := Point(Round(1180 * ScaleX), Round(880 * ScaleY));
+  Frames[8].legl[3] := Point(Round(980 * ScaleX), Round(950 * ScaleY));
+
+  Frames[8].legr[1] := Point(Round(1280 * ScaleX), Round(750 * ScaleY));
+  Frames[8].legr[2] := Point(Round(1520 * ScaleX), Round(700 * ScaleY));
+  Frames[8].legr[3] := Point(Round(1790 * ScaleX), Round(750 * ScaleY));
+
+  Frames[8].head := Rect(Round(1680 * ScaleX), Round(610 * ScaleY), Round(1820 * ScaleX), Round(470 * ScaleY));
+  Frames[8].body[1] := Point(Round(1280 * ScaleX), Round(750 * ScaleY));
+  Frames[8].body[2] := Point(Round(1750 * ScaleX), Round(560 * ScaleY));
+
+  Frames[8].pmax := Point(Round(1900 * ScaleX), Round(950 * ScaleY));
+
+
+  Frames[9].handl[1] := Point(Round(1580 * ScaleX), Round(590 * ScaleY));
+  Frames[9].handl[2] := Point(Round(1710 * ScaleX), Round(650 * ScaleY));
+  Frames[9].handl[3] := Point(Round(1860 * ScaleX), Round(590 * ScaleY));
+
+  Frames[9].handr[1] := Point(Round(1580 * ScaleX), Round(590 * ScaleY));
+  Frames[9].handr[2] := Point(Round(1700 * ScaleX), Round(700 * ScaleY));
+  Frames[9].handr[3] := Point(Round(1820 * ScaleX), Round(760 * ScaleY));
+
+  Frames[9].legl[1] := Point(Round(1280 * ScaleX), Round(710 * ScaleY));
+  Frames[9].legl[2] := Point(Round(1150 * ScaleX), Round(820 * ScaleY));
+  Frames[9].legl[3] := Point(Round(930 * ScaleX), Round(780 * ScaleY));
+
+  Frames[9].legr[1] := Point(Round(1280 * ScaleX), Round(710 * ScaleY));
+  Frames[9].legr[2] := Point(Round(1500 * ScaleX), Round(770 * ScaleY));
+  Frames[9].legr[3] := Point(Round(1620 * ScaleX), Round(890 * ScaleY));
+
+  Frames[9].head := Rect(Round(1680 * ScaleX), Round(570 * ScaleY), Round(1820 * ScaleX), Round(430 * ScaleY));
+  Frames[9].body[1] := Point(Round(1280 * ScaleX), Round(710 * ScaleY));
+  Frames[9].body[2] := Point(Round(1710 * ScaleX), Round(540 * ScaleY));
+
+  Frames[9].pmax := Point(Round(1860 * ScaleX), Round(890 * ScaleY));
+
+
+  Frames[10].handl[1] := Point(Round(1630 * ScaleX), Round(640 * ScaleY));
+  Frames[10].handl[2] := Point(Round(1600 * ScaleX), Round(780 * ScaleY));
+  Frames[10].handl[3] := Point(Round(1740 * ScaleX), Round(890 * ScaleY));
+
+  Frames[10].handr[1] := Point(Round(1630 * ScaleX), Round(640 * ScaleY));
+  Frames[10].handr[2] := Point(Round(1600 * ScaleX), Round(780 * ScaleY));
+  Frames[10].handr[3] := Point(Round(1740 * ScaleX), Round(890 * ScaleY));
+
+  Frames[10].legl[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[10].legl[2] := Point(Round(1590 * ScaleX), Round(860 * ScaleY));
+  Frames[10].legl[3] := Point(Round(1200 * ScaleX), Round(900 * ScaleY));
+
+  Frames[10].legr[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[10].legr[2] := Point(Round(1540 * ScaleX), Round(930 * ScaleY));
+  Frames[10].legr[3] := Point(Round(1720 * ScaleX), Round(1080 * ScaleY));
+
+  Frames[10].head := Rect(Round(1680 * ScaleX), Round(610 * ScaleY), Round(1820 * ScaleX), Round(470 * ScaleY));
+  Frames[10].body[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[10].body[2] := Point(Round(1750 * ScaleX), Round(590 * ScaleY));
+
+  Frames[10].pmax := Point(Round(1820 * ScaleX), Round(1080 * ScaleY));
+
+
+  Frames[11].handl[1] := Point(Round(1510 * ScaleX), Round(660 * ScaleY));
+  Frames[11].handl[2] := Point(Round(1480 * ScaleX), Round(790 * ScaleY));
+  Frames[11].handl[3] := Point(Round(1620 * ScaleX), Round(930 * ScaleY));
+
+  Frames[11].handr[1] := Point(Round(1510 * ScaleX), Round(660 * ScaleY));
+  Frames[11].handr[2] := Point(Round(1480 * ScaleX), Round(790 * ScaleY));
+  Frames[11].handr[3] := Point(Round(1620 * ScaleX), Round(930 * ScaleY));
+
+  Frames[11].legr[1] := Point(Round(1250 * ScaleX), Round(910 * ScaleY));
+  Frames[11].legr[2] := Point(Round(1500 * ScaleX), Round(870 * ScaleY));
+  Frames[11].legr[3] := Point(Round(1430 * ScaleX), Round(1080 * ScaleY));
+
+  Frames[11].legl[1] := Point(Round(1250 * ScaleX), Round(910 * ScaleY));
+  Frames[11].legl[2] := Point(Round(1380 * ScaleX), Round(1060 * ScaleY));
+  Frames[11].legl[3] := Point(Round(1460 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[11].head := Rect(Round(1510 * ScaleX), Round(630 * ScaleY), Round(1650 * ScaleX), Round(490 * ScaleY));
+  Frames[11].body[1] := Point(Round(1250 * ScaleX), Round(910 * ScaleY));
+  Frames[11].body[2] := Point(Round(1550 * ScaleX), Round(620 * ScaleY));
+
+  Frames[11].pmax := Point(Round(1650 * ScaleX), Round(1240 * ScaleY));
+
+
+  Frames[12].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[12].handl[2] := Point(Round(1200 * ScaleX), Round(800 * ScaleY));
+  Frames[12].handl[3] := Point(Round(1290 * ScaleX), Round(920 * ScaleY));
+
+  Frames[12].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[12].handr[2] := Point(Round(1540 * ScaleX), Round(750 * ScaleY));
+  Frames[12].handr[3] := Point(Round(1630 * ScaleX), Round(610 * ScaleY));
+
+  Frames[12].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[12].legl[2] := Point(Round(1200 * ScaleX), Round(1150 * ScaleY));
+  Frames[12].legl[3] := Point(Round(1060 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[12].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[12].legr[2] := Point(Round(1500 * ScaleX), Round(1060 * ScaleY));
+  Frames[12].legr[3] := Point(Round(1020 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[12].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[12].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[12].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[12].pmax := Point(Round(1630 * ScaleX), Round(1340 * ScaleY));
+
+
+  //fall
+  Frames[13].handl[1] := Point(Round(1630 * ScaleX), Round(640 * ScaleY));
+  Frames[13].handl[2] := Point(Round(1790 * ScaleX), Round(740 * ScaleY));
+  Frames[13].handl[3] := Point(Round(1840 * ScaleX), Round(860 * ScaleY));
+
+  Frames[13].handr[1] := Point(Round(1630 * ScaleX), Round(640 * ScaleY));
+  Frames[13].handr[2] := Point(Round(1630 * ScaleX), Round(800 * ScaleY));
+  Frames[13].handr[3] := Point(Round(1710 * ScaleX), Round(930 * ScaleY));
+
+  Frames[13].legl[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[13].legl[2] := Point(Round(1020 * ScaleX), Round(820 * ScaleY));
+  Frames[13].legl[3] := Point(Round(810 * ScaleX), Round(780 * ScaleY));
+
+  Frames[13].legr[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[13].legr[2] := Point(Round(1100 * ScaleX), Round(900 * ScaleY));
+  Frames[13].legr[3] := Point(Round(860 * ScaleX), Round(920 * ScaleY));
+
+  Frames[13].body[1] := Point(Round(1280 * ScaleX), Round(780 * ScaleY));
+  Frames[13].body[2] := Point(Round(1750 * ScaleX), Round(590 * ScaleY));
+  Frames[13].head := Rect(Round(1680 * ScaleX), Round(610 * ScaleY), Round(1820 * ScaleX), Round(470 * ScaleY));
+
+  Frames[13].pmax := Point(Round(1820 * ScaleX), Round(930 * ScaleY));
+
+
+  Frames[14].handl[1] := Point(Round(1680 * ScaleX), Round(740 * ScaleY));
+  Frames[14].handl[2] := Point(Round(1870 * ScaleX), Round(770 * ScaleY));
+  Frames[14].handl[3] := Point(Round(1890 * ScaleX), Round(910 * ScaleY));
+
+  Frames[14].handr[1] := Point(Round(1680 * ScaleX), Round(740 * ScaleY));
+  Frames[14].handr[2] := Point(Round(1650 * ScaleX), Round(880 * ScaleY));
+  Frames[14].handr[3] := Point(Round(1760 * ScaleX), Round(990 * ScaleY));
+
+  Frames[14].legl[1] := Point(Round(1330 * ScaleX), Round(880 * ScaleY));
+  Frames[14].legl[2] := Point(Round(1070 * ScaleX), Round(960 * ScaleY));
+  Frames[14].legl[3] := Point(Round(860 * ScaleX), Round(880 * ScaleY));
+
+  Frames[14].legr[1] := Point(Round(1330 * ScaleX), Round(880 * ScaleY));
+  Frames[14].legr[2] := Point(Round(1110 * ScaleX), Round(1000 * ScaleY));
+  Frames[14].legr[3] := Point(Round(910 * ScaleX), Round(950 * ScaleY));
+
+  Frames[14].body[1] := Point(Round(1330 * ScaleX), Round(880 * ScaleY));
+  Frames[14].body[2] := Point(Round(1800 * ScaleX), Round(690 * ScaleY));
+  Frames[14].head := Rect(Round(1730 * ScaleX), Round(710 * ScaleY), Round(1870 * ScaleX), Round(570 * ScaleY));
+
+  Frames[14].pmax := Point(Round(1890 * ScaleX), Round(1000 * ScaleY));
+
+
+  Frames[15].handl[1] := Point(Round(1780 * ScaleX), Round(940 * ScaleY));
+  Frames[15].handl[2] := Point(Round(1960 * ScaleX), Round(990 * ScaleY));
+  Frames[15].handl[3] := Point(Round(1990 * ScaleX), Round(1120 * ScaleY));
+
+  Frames[15].handr[1] := Point(Round(1780 * ScaleX), Round(940 * ScaleY));
+  Frames[15].handr[2] := Point(Round(1730 * ScaleX), Round(1100 * ScaleY));
+  Frames[15].handr[3] := Point(Round(1860 * ScaleX), Round(1190 * ScaleY));
+
+  Frames[15].legl[1] := Point(Round(1430 * ScaleX), Round(1080 * ScaleY));
+  Frames[15].legl[2] := Point(Round(1170 * ScaleX), Round(1120 * ScaleY));
+  Frames[15].legl[3] := Point(Round(960 * ScaleX), Round(1050 * ScaleY));
+
+  Frames[15].legr[1] := Point(Round(1430 * ScaleX), Round(1080 * ScaleY));
+  Frames[15].legr[2] := Point(Round(1200 * ScaleX), Round(1150 * ScaleY));
+  Frames[15].legr[3] := Point(Round(1010 * ScaleX), Round(1100 * ScaleY));
+
+  Frames[15].body[1] := Point(Round(1430 * ScaleX), Round(1080 * ScaleY));
+  Frames[15].body[2] := Point(Round(1900 * ScaleX), Round(890 * ScaleY));
+  Frames[15].head := Rect(Round(1830 * ScaleX), Round(910 * ScaleY), Round(1970 * ScaleX), Round(770 * ScaleY));
+
+  Frames[15].pmax := Point(Round(1990 * ScaleX), Round(1190 * ScaleY));
+
+
+  Frames[16].handl[1] := Point(Round(1785 * ScaleX), Round(1180 * ScaleY));
+  Frames[16].handl[2] := Point(Round(1910 * ScaleX), Round(1250 * ScaleY));
+  Frames[16].handl[3] := Point(Round(1930 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[16].handr[1] := Point(Round(1785 * ScaleX), Round(1180 * ScaleY));
+  Frames[16].handr[2] := Point(Round(1800 * ScaleX), Round(1290 * ScaleY));
+  Frames[16].handr[3] := Point(Round(1870 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[16].legl[1] := Point(Round(1480 * ScaleX), Round(1240 * ScaleY));
+  Frames[16].legl[2] := Point(Round(1250 * ScaleX), Round(1340 * ScaleY));
+  Frames[16].legl[3] := Point(Round(1010 * ScaleX), Round(1250 * ScaleY));
+
+  Frames[16].legr[1] := Point(Round(1480 * ScaleX), Round(1240 * ScaleY));
+  Frames[16].legr[2] := Point(Round(1300 * ScaleX), Round(1340 * ScaleY));
+  Frames[16].legr[3] := Point(Round(1060 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[16].body[1] := Point(Round(1480 * ScaleX), Round(1240 * ScaleY));
+  Frames[16].body[2] := Point(Round(1965 * ScaleX), Round(1140 * ScaleY));
+  Frames[16].head := Rect(Round(1880 * ScaleX), Round(1210 * ScaleY), Round(2020 * ScaleX), Round(1070 * ScaleY));
+
+  Frames[16].pmax := Point(Round(2020 * ScaleX), Round(1340 * ScaleY));
+
+
+//low start
+  Frames[17].handl[1] := Point(Round((282 + 980) * ScaleX), Round(1090 * ScaleY));
+  Frames[17].handl[2] := Point(Round((300 + 980) * ScaleX), Round(1230 * ScaleY));
+  Frames[17].handl[3] := Point(Round((320 + 980) * ScaleX), Round(1340 * ScaleY));
+
+  Frames[17].handr[1] := Point(Round((282 + 980) * ScaleX), Round(1090 * ScaleY));
+  Frames[17].handr[2] := Point(Round((300 + 980) * ScaleX), Round(1230 * ScaleY));
+  Frames[17].handr[3] := Point(Round((320 + 980) * ScaleX), Round(1340 * ScaleY));
+
+  Frames[17].legl[1] := Point(Round((30 + 980) * ScaleX), Round(1030 * ScaleY));
+  Frames[17].legl[2] := Point(Round((159 + 980) * ScaleX), Round(1201 * ScaleY));
+  Frames[17].legl[3] := Point(Round((30 + 980) * ScaleX), Round(1340 * ScaleY));
+
+  Frames[17].legr[1] := Point(Round((30 + 980) * ScaleX), Round(1030 * ScaleY));
+  Frames[17].legr[2] := Point(Round((130 + 980) * ScaleX), Round(1210 * ScaleY));
+  Frames[17].legr[3] := Point(Round((10 + 980) * ScaleX), Round(1340 * ScaleY));
+
+  Frames[17].head := Rect(Round((331 + 980) * ScaleX), Round(1035 * ScaleY), Round((471 + 980) * ScaleX), Round(1175 * ScaleY));
+  Frames[17].body[1] := Point(Round((30 + 980) * ScaleX), Round(1030 * ScaleY));
+  Frames[17].body[2] := Point(Round((331 + 980) * ScaleX), Round(1105 * ScaleY));
+
+  Frames[17].pmax := Point(Round((471 + 980) * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[18].handl[1] := Point(Round((510 + 980) * ScaleX), Round(880 * ScaleY));
+  Frames[18].handl[2] := Point(Round((630 + 980) * ScaleX), Round(960 * ScaleY));
+  Frames[18].handl[3] := Point(Round((720 + 980) * ScaleX), Round(850 * ScaleY));
+
+  Frames[18].handr[1] := Point(Round((510 + 980) * ScaleX), Round(880 * ScaleY));
+  Frames[18].handr[2] := Point(Round((350 + 980) * ScaleX), Round(860 * ScaleY));
+  Frames[18].handr[3] := Point(Round((260 + 980) * ScaleX), Round(980 * ScaleY));
+
+  Frames[18].legl[1] := Point(Round((242 + 980) * ScaleX), Round(1080 * ScaleY));
+  Frames[18].legl[2] := Point(Round((320 + 980) * ScaleX), Round(1203 * ScaleY));
+  Frames[18].legl[3] := Point(Round((90 + 980) * ScaleX), Round(1250 * ScaleY));
+
+  Frames[18].legr[1] := Point(Round((242 + 980) * ScaleX), Round(1080 * ScaleY));
+  Frames[18].legr[2] := Point(Round((170 + 980) * ScaleX), Round(1240 * ScaleY));
+  Frames[18].legr[3] := Point(Round((10 + 980) * ScaleX), Round(1340 * ScaleY));
+
+  Frames[18].head := Rect(Round((525 + 980) * ScaleX), Round(770 * ScaleY), Round((665 + 980) * ScaleX), Round(910 * ScaleY));
+  Frames[18].body[1] := Point(Round((242 + 980) * ScaleX), Round(1080 * ScaleY));
+  Frames[18].body[2] := Point(Round((530 + 980) * ScaleX), Round(870 * ScaleY));
+
+  Frames[18].pmax := Point(Round((665 + 980) * ScaleX), Round(1340 * ScaleY));
+
+
+//reverse running
+  Frames[19].handl[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[19].handl[2] := Point(Round(1395 * ScaleX), Round(700 * ScaleY));
+  Frames[19].handl[3] := Point(Round(1400 * ScaleX), Round(830 * ScaleY));
+
+  Frames[19].handr[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[19].handr[2] := Point(Round(1055 * ScaleX), Round(750 * ScaleY));
+  Frames[19].handr[3] := Point(Round(1010 * ScaleX), Round(595 * ScaleY));
+
+  Frames[19].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[19].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[19].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[19].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[19].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[19].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[19].head := Rect(Round(1285 * ScaleX), Round(640 * ScaleY), Round(1145 * ScaleX), Round(500 * ScaleY));
+  Frames[19].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[19].body[2] := Point(Round(1205 * ScaleX), Round(540 * ScaleY));
+
+  Frames[19].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[20].handl[1] := Point(Round(1280 * ScaleX), Round(690 * ScaleY));
+  Frames[20].handl[2] := Point(Round(1440 * ScaleX), Round(810 * ScaleY));
+  Frames[20].handl[3] := Point(Round(1330 * ScaleX), Round(917 * ScaleY));
+
+  Frames[20].handr[1] := Point(Round(1280 * ScaleX), Round(690 * ScaleY));
+  Frames[20].handr[2] := Point(Round(1250 * ScaleX), Round(874 * ScaleY));
+  Frames[20].handr[3] := Point(Round(1110 * ScaleX), Round(864 * ScaleY));
+
+  Frames[20].legl[1] := Point(Round(1350 * ScaleX), Round(1000 * ScaleY));
+  Frames[20].legl[2] := Point(Round(1350 * ScaleX), Round(1190 * ScaleY));
+  Frames[20].legl[3] := Point(Round(1520 * ScaleX), Round(1130 * ScaleY));
+
+  Frames[20].legr[1] := Point(Round(1350 * ScaleX), Round(1000 * ScaleY));
+  Frames[20].legr[2] := Point(Round(1210 * ScaleX), Round(1180 * ScaleY));
+  Frames[20].legr[3] := Point(Round(1210 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[20].head := Rect(Round(1330 * ScaleX), Round(640 * ScaleY), Round(1190 * ScaleX), Round(500 * ScaleY));
+  Frames[20].body[1] := Point(Round(1350 * ScaleX), Round(1000 * ScaleY));
+  Frames[20].body[2] := Point(Round(1250 * ScaleX), Round(540 * ScaleY));
+
+  Frames[20].pmax := Point(Round(1520 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[21].handl[1] := Point(Round(1300 * ScaleX), Round(690 * ScaleY));
+  Frames[21].handl[2] := Point(Round(1400 * ScaleX), Round(850 * ScaleY));
+  Frames[21].handl[3] := Point(Round(1270 * ScaleX), Round(870 * ScaleY));
+
+  Frames[21].handr[1] := Point(Round(1300 * ScaleX), Round(690 * ScaleY));
+  Frames[21].handr[2] := Point(Round(1300 * ScaleX), Round(864 * ScaleY));
+  Frames[21].handr[3] := Point(Round(1150 * ScaleX), Round(870 * ScaleY));
+
+  Frames[21].legl[1] := Point(Round(1370 * ScaleX), Round(1000 * ScaleY));
+  Frames[21].legl[2] := Point(Round(1340 * ScaleX), Round(1150 * ScaleY));
+  Frames[21].legl[3] := Point(Round(1500 * ScaleX), Round(1120 * ScaleY));
+
+  Frames[21].legr[1] := Point(Round(1370 * ScaleX), Round(1000 * ScaleY));
+  Frames[21].legr[2] := Point(Round(1280 * ScaleX), Round(1180 * ScaleY));
+  Frames[21].legr[3] := Point(Round(1350 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[21].head := Rect(Round(1350 * ScaleX), Round(640 * ScaleY), Round(1210 * ScaleX), Round(500 * ScaleY));
+  Frames[21].body[1] := Point(Round(1370 * ScaleX), Round(1000 * ScaleY));
+  Frames[21].body[2] := Point(Round(1270 * ScaleX), Round(540 * ScaleY));
+
+  Frames[21].pmax := Point(Round(1500 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[22].handl[1] := Point(Round(1400 * ScaleX), Round(690 * ScaleY));
+  Frames[22].handl[2] := Point(Round(1560 * ScaleX), Round(770 * ScaleY));
+  Frames[22].handl[3] := Point(Round(1460 * ScaleX), Round(880 * ScaleY));
+
+  Frames[22].handr[1] := Point(Round(1400 * ScaleX), Round(690 * ScaleY));
+  Frames[22].handr[2] := Point(Round(1310 * ScaleX), Round(840 * ScaleY));
+  Frames[22].handr[3] := Point(Round(1190 * ScaleX), Round(745 * ScaleY));
+
+  Frames[22].legl[1] := Point(Round(1470 * ScaleX), Round(1000 * ScaleY));
+  Frames[22].legl[2] := Point(Round(1330 * ScaleX), Round(1080 * ScaleY));
+  Frames[22].legl[3] := Point(Round(1510 * ScaleX), Round(1170 * ScaleY));
+
+  Frames[22].legr[1] := Point(Round(1470 * ScaleX), Round(1000 * ScaleY));
+  Frames[22].legr[2] := Point(Round(1430 * ScaleX), Round(1220 * ScaleY));
+  Frames[22].legr[3] := Point(Round(1540 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[22].head := Rect(Round(1450 * ScaleX), Round(640 * ScaleY), Round(1310 * ScaleX), Round(500 * ScaleY));
+  Frames[22].body[1] := Point(Round(1470 * ScaleX), Round(1000 * ScaleY));
+  Frames[22].body[2] := Point(Round(1370 * ScaleX), Round(540 * ScaleY));
+
+  Frames[22].pmax := Point(Round(1560 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[23].handl[1] := Point(Round(1365 * ScaleX), Round(690 * ScaleY));
+  Frames[23].handl[2] := Point(Round(1545 * ScaleX), Round(750 * ScaleY));
+  Frames[23].handl[3] := Point(Round(1445 * ScaleX), Round(880 * ScaleY));
+
+  Frames[23].handr[1] := Point(Round(1365 * ScaleX), Round(690 * ScaleY));
+  Frames[23].handr[2] := Point(Round(1255 * ScaleX), Round(820 * ScaleY));
+  Frames[23].handr[3] := Point(Round(1150 * ScaleX), Round(725 * ScaleY));
+
+  Frames[23].legl[1] := Point(Round(1435 * ScaleX), Round(1000 * ScaleY));
+  Frames[23].legl[2] := Point(Round(1255 * ScaleX), Round(1080 * ScaleY));
+  Frames[23].legl[3] := Point(Round(1475 * ScaleX), Round(1210 * ScaleY));
+
+  Frames[23].legr[1] := Point(Round(1435 * ScaleX), Round(1000 * ScaleY));
+  Frames[23].legr[2] := Point(Round(1395 * ScaleX), Round(1200 * ScaleY));
+  Frames[23].legr[3] := Point(Round(1565 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[23].head := Rect(Round(1415 * ScaleX), Round(640 * ScaleY), Round(1275 * ScaleX), Round(500 * ScaleY));
+  Frames[23].body[1] := Point(Round(1435 * ScaleX), Round(1000 * ScaleY));
+  Frames[23].body[2] := Point(Round(1335 * ScaleX), Round(540 * ScaleY));
+
+  Frames[23].pmax := Point(Round(1565 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[24].handl[1] := Point(Round(1260 * ScaleX), Round(690 * ScaleY));
+  Frames[24].handl[2] := Point(Round(1420 * ScaleX), Round(760 * ScaleY));
+  Frames[24].handl[3] := Point(Round(1370 * ScaleX), Round(867 * ScaleY));
+
+  Frames[24].handr[1] := Point(Round(1260 * ScaleX), Round(690 * ScaleY));
+  Frames[24].handr[2] := Point(Round(1080 * ScaleX), Round(760 * ScaleY));
+  Frames[24].handr[3] := Point(Round(1040 * ScaleX), Round(620 * ScaleY));
+
+  Frames[24].legl[1] := Point(Round(1330 * ScaleX), Round(1000 * ScaleY));
+  Frames[24].legl[2] := Point(Round(1140 * ScaleX), Round(1130 * ScaleY));
+  Frames[24].legl[3] := Point(Round(1230 * ScaleX), Round(1250 * ScaleY));
+
+  Frames[24].legr[1] := Point(Round(1330 * ScaleX), Round(1000 * ScaleY));
+  Frames[24].legr[2] := Point(Round(1430 * ScaleX), Round(1200 * ScaleY));
+  Frames[24].legr[3] := Point(Round(1570 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[24].head := Rect(Round(1310 * ScaleX), Round(500 * ScaleY), Round(1170 * ScaleX), Round(640 * ScaleY));
+  Frames[24].body[1] := Point(Round(1330 * ScaleX), Round(1000 * ScaleY));
+  Frames[24].body[2] := Point(Round(1230 * ScaleX), Round(540 * ScaleY));
+
+  Frames[24].pmax := Point(Round(1570 * ScaleX), Round(1340 * ScaleY));
+
+//down
+  Frames[25].handl[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[25].handl[2] := Point(Round(1150 * ScaleX), Round(850 * ScaleY));
+  Frames[25].handl[3] := Point(Round(1050 * ScaleX), Round(950 * ScaleY));
+
+  Frames[25].handr[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[25].handr[2] := Point(Round(1100 * ScaleX), Round(800 * ScaleY));
+  Frames[25].handr[3] := Point(Round(1010 * ScaleX), Round(900 * ScaleY));
+
+  Frames[25].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[25].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[25].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[25].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[25].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[25].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[25].head := Rect(Round(1285 * ScaleX), Round(640 * ScaleY), Round(1145 * ScaleX), Round(500 * ScaleY));
+  Frames[25].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[25].body[2] := Point(Round(1205 * ScaleX), Round(540 * ScaleY));
+
+  Frames[25].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[26].handl[1] := Point(Round(1135 * ScaleX), Round(830 * ScaleY));
+  Frames[26].handl[2] := Point(Round(1050 * ScaleX), Round(990 * ScaleY));
+  Frames[26].handl[3] := Point(Round(950 * ScaleX), Round(1090 * ScaleY));
+
+  Frames[26].handr[1] := Point(Round(1135 * ScaleX), Round(830 * ScaleY));
+  Frames[26].handr[2] := Point(Round(1000 * ScaleX), Round(940 * ScaleY));
+  Frames[26].handr[3] := Point(Round(910 * ScaleX), Round(1050 * ScaleY));
+
+  Frames[26].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[26].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[26].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[26].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[26].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[26].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[26].head := Rect(Round(1085 * ScaleX), Round(800 * ScaleY), Round(945 * ScaleX), Round(660 * ScaleY));
+  Frames[26].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[26].body[2] := Point(Round(1005 * ScaleX), Round(700 * ScaleY));
+
+  Frames[26].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[27].handl[1] := Point(Round(1055 * ScaleX), Round(920 * ScaleY));
+  Frames[27].handl[2] := Point(Round(1020 * ScaleX), Round(1080 * ScaleY));
+  Frames[27].handl[3] := Point(Round(920 * ScaleX), Round(1180 * ScaleY));
+
+  Frames[27].handr[1] := Point(Round(1055 * ScaleX), Round(920 * ScaleY));
+  Frames[27].handr[2] := Point(Round(970 * ScaleX), Round(1030 * ScaleY));
+  Frames[27].handr[3] := Point(Round(880 * ScaleX), Round(1140 * ScaleY));
+
+  Frames[27].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[27].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[27].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[27].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[27].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[27].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[27].head := Rect(Round(935 * ScaleX), Round(950 * ScaleY), Round(795 * ScaleX), Round(810 * ScaleY));
+  Frames[27].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[27].body[2] := Point(Round(850 * ScaleX), Round(850 * ScaleY));
+
+  Frames[27].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[28].handl[1] := Point(Round(1135 * ScaleX), Round(830 * ScaleY));
+  Frames[28].handl[2] := Point(Round(1050 * ScaleX), Round(990 * ScaleY));
+  Frames[28].handl[3] := Point(Round(950 * ScaleX), Round(1090 * ScaleY));
+
+  Frames[28].handr[1] := Point(Round(1135 * ScaleX), Round(830 * ScaleY));
+  Frames[28].handr[2] := Point(Round(1000 * ScaleX), Round(940 * ScaleY));
+  Frames[28].handr[3] := Point(Round(910 * ScaleX), Round(1050 * ScaleY));
+
+  Frames[28].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[28].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[28].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[28].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[28].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[28].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[28].head := Rect(Round(1085 * ScaleX), Round(800 * ScaleY), Round(945 * ScaleX), Round(660 * ScaleY));
+  Frames[28].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[28].body[2] := Point(Round(1005 * ScaleX), Round(700 * ScaleY));
+
+  Frames[28].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+  Frames[29].handl[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[29].handl[2] := Point(Round(1140 * ScaleX), Round(840 * ScaleY));
+  Frames[29].handl[3] := Point(Round(1050 * ScaleX), Round(950 * ScaleY));
+
+  Frames[29].handr[1] := Point(Round(1235 * ScaleX), Round(690 * ScaleY));
+  Frames[29].handr[2] := Point(Round(1090 * ScaleX), Round(790 * ScaleY));
+  Frames[29].handr[3] := Point(Round(1010 * ScaleX), Round(900 * ScaleY));
+
+  Frames[29].legl[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[29].legl[2] := Point(Round(1365 * ScaleX), Round(1180 * ScaleY));
+  Frames[29].legl[3] := Point(Round(1575 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[29].legr[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[29].legr[2] := Point(Round(1135 * ScaleX), Round(1130 * ScaleY));
+  Frames[29].legr[3] := Point(Round(1185 * ScaleX), Round(1290 * ScaleY));
+
+  Frames[29].head := Rect(Round(1285 * ScaleX), Round(640 * ScaleY), Round(1145 * ScaleX), Round(500 * ScaleY));
+  Frames[29].body[1] := Point(Round(1305 * ScaleX), Round(1000 * ScaleY));
+  Frames[29].body[2] := Point(Round(1205 * ScaleX), Round(540 * ScaleY));
+
+  Frames[29].pmax := Point(Round(1575 * ScaleX), Round(1290 * ScaleY));
+
+
+//up
+  Frames[30].handl[1] := Point(Round(1590 * ScaleX), Round(960 * ScaleY));
+  Frames[30].handl[2] := Point(Round(1650 * ScaleX), Round(1120 * ScaleY));
+  Frames[30].handl[3] := Point(Round(1740 * ScaleX), Round(1220 * ScaleY));
+
+  Frames[30].handr[1] := Point(Round(1590 * ScaleX), Round(960 * ScaleY));
+  Frames[30].handr[2] := Point(Round(1600 * ScaleX), Round(1110 * ScaleY));
+  Frames[30].handr[3] := Point(Round(1670 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[30].legl[1] := Point(Round(1400 * ScaleX), Round(1150 * ScaleY));
+  Frames[30].legl[2] := Point(Round(1250 * ScaleX), Round(1340 * ScaleY));
+  Frames[30].legl[3] := Point(Round(1010 * ScaleX), Round(1250 * ScaleY));
+
+  Frames[30].legr[1] := Point(Round(1400 * ScaleX), Round(1150 * ScaleY));
+  Frames[30].legr[2] := Point(Round(1300 * ScaleX), Round(1340 * ScaleY));
+  Frames[30].legr[3] := Point(Round(1060 * ScaleX), Round(1240 * ScaleY));
+
+  Frames[30].body[1] := Point(Round(1400 * ScaleX), Round(1150 * ScaleY));
+  Frames[30].body[2] := Point(Round(1700 * ScaleX), Round(850 * ScaleY));
+  Frames[30].head := Rect(Round(1690 * ScaleX), Round(900 * ScaleY), Round(1840 * ScaleX), Round(750 * ScaleY));
+
+  Frames[30].pmax := Point(Round(1840 * ScaleX), Round(1340 * ScaleY));
+
+
+  Frames[31].handl[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[31].handl[2] := Point(Round(1350 * ScaleX), Round(860 * ScaleY));
+  Frames[31].handl[3] := Point(Round(1480 * ScaleX), Round(900 * ScaleY));
+
+  Frames[31].handr[1] := Point(Round(1350 * ScaleX), Round(690 * ScaleY));
+  Frames[31].handr[2] := Point(Round(1370 * ScaleX), Round(844 * ScaleY));
+  Frames[31].handr[3] := Point(Round(1500 * ScaleX), Round(870 * ScaleY));
+
+  Frames[31].legl[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[31].legl[2] := Point(Round(1310 * ScaleX), Round(1180 * ScaleY));
+  Frames[31].legl[3] := Point(Round(1220 * ScaleX), Round(1330 * ScaleY));
+
+  Frames[31].legr[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[31].legr[2] := Point(Round(1370 * ScaleX), Round(1180 * ScaleY));
+  Frames[31].legr[3] := Point(Round(1300 * ScaleX), Round(1340 * ScaleY));
+
+  Frames[31].head := Rect(Round(1300 * ScaleX), Round(640 * ScaleY), Round(1440 * ScaleX), Round(500 * ScaleY));
+  Frames[31].body[1] := Point(Round(1280 * ScaleX), Round(1000 * ScaleY));
+  Frames[31].body[2] := Point(Round(1380 * ScaleX), Round(540 * ScaleY));
+
+  Frames[31].pmax := Point(Round(1500 * ScaleX), Round(1340 * ScaleY));
+
+end;
+
+end.
+

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.263,M:\BSUIR\ОАИП2\лаба2\Unit1.dfm=M:\BSUIR\ОАИП\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.045,M:\BSUIR\ОАИП2\лаба2\бег с препятствиями\Unit1.dfm=M:\BSUIR\ОАИП2\лаба2\бег с препятствиями\Unit2.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.628,M:\BSUIR\ОАИП2\лаба2\Project12.dproj=M:\BSUIR\ОАИП\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.045,M:\BSUIR\ОАИП2\лаба2\бег с препятствиями\Unit1.pas=M:\BSUIR\ОАИП2\лаба2\бег с препятствиями\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.378,M:\BSUIR\ОАИП2\лаба2\Unit2.pas=M:\BSUIR\ОАИП2\лаба2\Person.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.263,M:\BSUIR\ОАИП2\лаба2\Unit1.pas=M:\BSUIR\ОАИП\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.666,=M:\BSUIR\ОАИП\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.067,=M:\BSUIR\ОАИП2\лаба2\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.611,=M:\BSUIR\ОАИП2\лаба2\Unit2.pas</Transaction>
+  </Transactions>
+</BorlandProject>

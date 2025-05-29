@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.238,C:\Users\Михаил\Desktop\university\sem2\oaip\lab22\film.dfm=D:\Delphi\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.731,C:\Users\Михаил\Desktop\university\sem2\oaip\lab22\cartoon.dproj=D:\Delphi\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.589,=D:\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.238,C:\Users\Михаил\Desktop\university\sem2\oaip\lab22\film.pas=D:\Delphi\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

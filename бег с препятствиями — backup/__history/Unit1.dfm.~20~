@@ -1,0 +1,42 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 998
+  ClientWidth = 1396
+  Color = clBtnFace
+  DoubleBuffered = True
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  OnClick = FormClick
+  OnCreate = FormCreate
+  OnPaint = FormPaint
+  TextHeight = 15
+  object ambient: TMediaPlayer
+    Left = 1383
+    Top = 993
+    Width = 253
+    Height = 20
+    FileName = 'M:\BSUIR\'#1054#1040#1048#1055'2\'#1083#1072#1073#1072'2\ost\ambient.mp3'
+    TabOrder = 0
+  end
+  object shot: TMediaPlayer
+    Left = 1320
+    Top = 936
+    Width = 253
+    Height = 30
+    FileName = 'M:\BSUIR\'#1054#1040#1048#1055'2\'#1083#1072#1073#1072'2\ost\shot.mp3'
+    TabOrder = 1
+  end
+  object fall: TMediaPlayer
+    Left = 1280
+    Top = 920
+    Width = 253
+    Height = 30
+    FileName = 'M:\BSUIR\'#1054#1040#1048#1055'2\'#1083#1072#1073#1072'2\ost\fall.mp3'
+    TabOrder = 2
+  end
+end
